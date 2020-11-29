@@ -1,0 +1,12 @@
+{
+  "first_year": 1970,
+  "last_year": 2023,
+  "regions": {
+    "Africa": ["DZA", "EGY", "ETH", "GHA", "KEN", "MAR", "NGA", "SEN", "ZAF"],
+    "Asia": ["BGD", "CHN", "IDN", "IND", "JPN", "KOR", "PAK", "PHL", "THA"],
+    "Europe": ["AUT", "CHE", "DEU", "ESP", "FRA", "GBR", "ITA", "NLD", "NOR", "SWE"],
+    "LatinAmerica": ["ARG", "BRA", "CHL", "COL", "CRI", "MEX", "PER", "URY"],
+    "NorthAmerica": ["CAN", "USA"],
+    "Oceania": ["AUS", "FJI", "NZL", "PNG"]
+  }
+}

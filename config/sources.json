@@ -1,0 +1,27 @@
+{
+  "wpp": {
+    "base": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/",
+    "vintage": "WPP2024-original",
+    "max_bytes": 450000000,
+    "files": {
+      "WPP2024_DeathsBySingleAgeSex_Medium_1950-2023.csv.gz": "3b397a01439b7e985be4b7ce285d57e4f648dcc641b351e780e53f7aa35e13fa",
+      "WPP2024_PopulationExposureBySingleAgeSex_Medium_1950-2023.csv.gz": "e86b6afb959019a1b06df67e6bd56f12467bc937ca22847c3274dfcfb03c2886",
+      "WPP2024_Life_Table_Complete_Medium_Female_1950-2023.csv.gz": "0e23ba8cc2daabd9aa40839b02e21917205f29ea45791c2b1a87bd42705b1458",
+      "WPP2024_Life_Table_Complete_Medium_Male_1950-2023.csv.gz": "e304a776352e5899ff45a1e0c059bdbaa32e8a8249d36d8f4627b2afaf6358be"
+    }
+  },
+  "who": {
+    "base": "https://cdn.who.int/media/docs/default-source/world-health-data-platform/mortality-raw-data/",
+    "vintage": "MDB-2026-02-23",
+    "max_bytes": 50000000,
+    "files": {
+      "mort_documentation71f9e29d-7e3f-41e6-aafc-c4c1775c7aa3.zip": "c4a1db856a08621fd4cc6a8ee986707fa37181b0730d16da13964f41d80368e2",
+      "mort_pop.zip": "948a71a91c0d877e9b762982f21a12519d54b12cbcb46f6a18eae7f51868952d",
+      "morticd10_part3.zip": "af2eb7589b4819265a59f727aad975a2b82ba5c9a208eaa74b59b2c42bb0d248",
+      "morticd10_part4.zip": "2de453eb53c4c78276cb7a4f52b7165d056fdd7bb1cee4388c08b84dabffb04d",
+      "morticd10_part5.zip": "6baa52d694e95b1bc5c97c2905ea29e3502e43cc7e6bee8610e4c10862ac0d6f",
+      "morticd10_part6.zip": "cfbb3374a460c71dfb943bef8556396335f5449eccf655adbb4575c5ee6b7197",
+      "mort_country_codes.zip": "8c410820356fc572845b5281b36f638e044a565f808c4e72efc8fb69b07df6b2"
+    }
+  }
+}
