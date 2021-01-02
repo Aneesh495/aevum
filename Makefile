@@ -22,3 +22,19 @@ acquire:
 
 data:
 	$(PY) -m aevum.wpp
+
+RUN_ID ?= diagnostic
+PROFILE ?= diagnostic
+THREADS := OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 OMP_NUM_THREADS=2
+
+.PHONY: who-data fit-baselines train backtest
+who-data:
+	$(PY) -m aevum.who
+
+fit-baselines:
+	$(THREADS) $(PY) -m aevum.study --profile diagnostic --out evidence/$(RUN_ID)
+
+train: fit-baselines
+
+backtest:
+	$(THREADS) $(PY) -m aevum.study --profile $(PROFILE) --out evidence/$(RUN_ID)
