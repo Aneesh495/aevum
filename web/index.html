@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aevum | Mortality Atlas</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to research workspace</a>
+  <header class="mast">
+    <div class="brand"><span class="seal" aria-hidden="true">A</span><span>AEVUM</span></div>
+    <div class="mast-right"><span>DEMOGRAPHIC RESEARCH LAB</span><span class="edition">01 / ATLAS</span></div>
+  </header>
+  <main id="main">
+    <section class="intro">
+      <p class="eyebrow">RESEARCH WORKSPACE <span> / </span> AGE × PERIOD</p>
+      <h1>Mortality atlas<span>.</span></h1>
+      <p>Explore the age pattern of mortality, compare synthetic period lifetimes, and follow change across the calendar.</p>
+    </section>
+    <nav aria-label="Research sections" class="tabs">
+      <button id="period-tab" type="button" aria-controls="period" aria-pressed="true">01 <span>Period comparison</span></button>
+      <button id="cause-tab" type="button" aria-controls="cause" aria-pressed="false">02 <span>Cause lab</span></button>
+    </nav>
+    <p id="notice" role="status" class="notice"></p>
+    <section id="period" aria-labelledby="period-tab">
+      <form id="period-form" class="controls">
+        <label>Population A<select id="left" name="left"></select></label>
+        <label>Population B<select id="right" name="right"></select></label>
+        <label>Published sex<select id="sex" name="sex"><option value="female">Female</option><option value="male">Male</option></select></label>
+        <label>Period year<select id="year" name="year"></select></label>
+        <div class="actions"><button class="minor" id="save" type="button">Save view</button><button class="primary" id="export" type="button">Export CSV</button></div>
+      </form>
+      <div class="source" id="period-source"></div>
+      <div class="cards" id="cards"></div>
+      <section class="panel chart-wide">
+        <div class="panel-heading"><div><p class="eyebrow">01 / SURFACE</p><h2 id="lexis-title">Mortality by age and period</h2></div><p>Central death rates · logarithmic scale</p></div>
+        <canvas id="lexis" aria-labelledby="lexis-title" role="img"></canvas>
+        <div class="legend heat"><span>10⁻⁵</span><span aria-hidden="true"></span><span>1 death / person-year</span></div>
+      </section>
+      <div class="chart-pair">
+        <section class="panel"><p class="eyebrow">02 / LIFE TABLE</p><h2>Survival and hazard</h2><p>Probability of reaching each age under the selected year's rates.</p><div id="survival"></div><div id="hazard"></div></section>
+        <section class="panel"><p class="eyebrow">03 / FORECAST</p><h2>Life expectancy paths</h2><p>Historical modeled estimates and frozen model forecasts.</p><div id="fan"></div><p id="forecast-source" class="small"></p></section>
+      </div>
+      <section class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">04 / COHORT</p><h2>Calendar diagonal</h2></div><label>Birth year<input id="birth" type="number" min="1870" max="2023" value="1980"></label></div>
+        <p>Single-age cells on a period surface. Truncated traces omit lifetime expectancy.</p>
+        <div id="cohort"></div>
+      </section>
+    </section>
+    <section id="cause" aria-labelledby="cause-tab" hidden>
+      <form id="cause-form" class="controls">
+        <label>WHO reporting area<select name="country" id="who-country"></select></label>
+        <label>Published sex<select name="sex"><option value="female">Female</option><option value="male">Male</option></select></label>
+        <label>Period year<select name="year" id="who-year"></select></label>
+        <label>Cause<select name="cause" id="who-cause"></select></label>
+        <label>Rate multiplier<input name="factor" type="number" min="0" max="5" step="0.1" value="0.5" required></label>
+      </form>
+      <div class="source">WHO Mortality Database · National registration tabulations · February 2026 vintage</div>
+      <section class="panel"><p class="eyebrow">01 / COMPOSITION</p><h2>Registered causes of death</h2><div id="cause-view"></div></section>
+      <section class="panel"><p class="eyebrow">02 / SCENARIO</p><h2>Conditional life table</h2>
+        <label class="check"><input type="checkbox" name="approx" form="cause-form"> Use matched midyear headcounts as approximate exposure</label>
+        <div id="scenario"></div>
+      </section>
+    </section>
+  </main>
+  <footer><span>AEVUM / MORTALITY ATLAS</span><span>Population-level demographic research</span></footer>
+</body>
+</html>
