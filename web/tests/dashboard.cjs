@@ -88,6 +88,14 @@ async function qa() {
     assert.equal(invalid.status(), 400);
     const empty = await page.request.get(url + "/api/cohort?country=JPN&sex=female&birth=1870");
     assert.deepEqual((await empty.json()).points, []);
+    await page.getByRole("button", { name: /Forecast errors/ }).click();
+    if (catalogue.error_models.length > 0) {
+      await page.locator("#error-grid table").waitFor();
+      assert.equal(await page.locator("#error-grid tbody tr").count(), 42);
+      await page.screenshot({ path: path.join(output, "errors-desktop.png"), fullPage: true });
+    } else {
+      await page.getByText("Load a frozen backtest summary to inspect forecast errors.").waitFor();
+    }
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole("button", { name: /Period comparison/ }).click();
     await page.locator("#cohort svg").waitFor();

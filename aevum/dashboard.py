@@ -1,6 +1,7 @@
 """Local, bounded JSON service for the Aevum research dashboard."""
 
 import argparse
+import csv
 from dataclasses import asdict
 from functools import lru_cache
 from http import HTTPStatus
@@ -44,12 +45,27 @@ def _sex(value: str) -> str:
 
 
 class Laboratory:
-    def __init__(self, panel: Path, causes: Path | None, checkpoint: Path | None):
+    def __init__(
+        self, panel: Path, causes: Path | None, checkpoint: Path | None, errors: Path | None = None,
+    ):
         self.panel = panel
         self.panel_sha = digest(panel)
         self.cube = load_wpp(panel)
         self.causes = causes if causes and causes.is_file() else None
         self.forecast = None
+        self.errors: list[dict] = []
+        self.error_sha = None
+        if errors is not None:
+            if errors.stat().st_size > 1_000_000:
+                raise ValueError("forecast error catalogue exceeds the serving limit")
+            with errors.open() as handle:
+                for row in csv.DictReader(handle):
+                    horizon, count, score = int(row["horizon"]), int(row["count"]), float(row["wis_e0"])
+                    if horizon not in (1, 5, 10, 20) or count <= 0 or not isfinite(score) or score < 0:
+                        raise ValueError("invalid frozen forecast error summary")
+                    self.errors.append({"country": row["country"], "family": row["family"],
+                                        "horizon": horizon, "n": count, "wis": score})
+            self.error_sha = digest(errors)
         with connection() as con:
             self.countries = dict(con.execute(
                 "SELECT DISTINCT country, name FROM read_parquet(?) ORDER BY name", [str(panel)]
@@ -84,10 +100,17 @@ class Laboratory:
             "years": self.cube.years, "vintage": self.cube.vintage,
             "panel_sha256": self.panel_sha,
             "cause_countries": [{"code": code, "name": name} for code, name in self.cause_countries.items()],
+            "error_models": sorted({row["family"] for row in self.errors}),
             "forecast": None if not self.forecast else {
                 key: self.forecast[key] for key in ("model", "seed", "origin", "checkpoint_sha256")
             },
         }
+
+    def errors_for(self, family: str) -> dict:
+        rows = [row | {"name": self.countries[row["country"]]} for row in self.errors
+                if row["family"] == family and row["country"] in self.countries]
+        return {"available": bool(rows), "vintage": self.cube.vintage, "rows": rows,
+                "unit": "weighted_interval_score_in_e0_years", "summary_sha256": self.error_sha}
 
     def _group(self, country: str, sex: str) -> tuple[int, Population]:
         for i, group in enumerate(self.cube.groups):
@@ -271,6 +294,8 @@ class Handler(BaseHTTPRequestHandler):
                                        _one(query, "sex"), int(_one(query, "year")))
             elif url.path == "/api/cohort":
                 value = lab.cohort(_one(query, "country"), _one(query, "sex"), int(_one(query, "birth")))
+            elif url.path == "/api/errors":
+                value = lab.errors_for(_one(query, "family"))
             elif url.path == "/api/causes":
                 value = lab.composition(_one(query, "country"), _one(query, "sex"), int(_one(query, "year")),
                                         _one(query, "cause", "circulatory"), float(_one(query, "factor", "1")),
@@ -290,9 +315,10 @@ if __name__ == "__main__":
     parser.add_argument("--panel", type=Path, default=Path("data/wpp.parquet"))
     parser.add_argument("--causes", type=Path, default=Path("data/who.parquet"))
     parser.add_argument("--checkpoint", type=Path)
+    parser.add_argument("--errors", type=Path)
     parser.add_argument("--port", default=8078, type=int)
     args = parser.parse_args()
-    lab = Laboratory(args.panel, args.causes, args.checkpoint)
+    lab = Laboratory(args.panel, args.causes, args.checkpoint, args.errors)
     with BoundedServer(("127.0.0.1", args.port), Handler, lab) as server:
         print(f"Aevum serving http://127.0.0.1:{server.server_port}", flush=True)
         try:
