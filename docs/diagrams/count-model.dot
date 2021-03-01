@@ -1,0 +1,12 @@
+digraph Aevum {
+  rankdir=TB;
+  graph [bgcolor="#fbfaf4", pad=.25, nodesep=.35, ranksep=.55];
+  node [shape=box, style="rounded,filled", fillcolor="#eff5ed", color="#54857b", fontname="Helvetica", margin=".16,.12"];
+  edge [color="#36585d"];
+  "Age basis, sex and country levels" -> "Log central rate";
+  "Time trend and latent states" -> "Log central rate";
+  "Log person-years offset" -> "Log expected deaths";
+  "Log central rate" -> "Log expected deaths";
+  "Log expected deaths" -> "Poisson or NB2 objective";
+  "Deaths by age" -> "Poisson or NB2 objective";
+}

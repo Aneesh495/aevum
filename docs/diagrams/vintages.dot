@@ -1,0 +1,12 @@
+digraph Aevum {
+  rankdir=TB;
+  graph [bgcolor="#fbfaf4", pad=.25, nodesep=.35, ranksep=.55];
+  node [shape=box, style="rounded,filled", fillcolor="#eff5ed", color="#54857b", fontname="Helvetica", margin=".16,.12"];
+  edge [color="#36585d"];
+  "WPP 2022 available in 2022" -> "Historical inputs through 2021";
+  "WPP 2024 available in 2024" -> "Revised inputs through 2021";
+  "Historical inputs through 2021" -> "As-of-2022 forecast for 2023";
+  "Revised inputs through 2021" -> "Retrospective forecast for 2023";
+  "As-of-2022 forecast for 2023" -> "2024 vintage target estimate";
+  "Retrospective forecast for 2023" -> "2024 vintage target estimate";
+}

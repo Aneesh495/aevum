@@ -1,0 +1,11 @@
+digraph Aevum {
+  rankdir=TB;
+  graph [bgcolor="#fbfaf4", pad=.25, nodesep=.35, ranksep=.55];
+  node [shape=box, style="rounded,filled", fillcolor="#eff5ed", color="#54857b", fontname="Helvetica", margin=".16,.12"];
+  edge [color="#36585d"];
+  "Rust release build" -> "Local Python service";
+  "Locked Python environment" -> "Local Python service";
+  "Pinned TypeScript compiler" -> "Static JS";
+  "Static JS" -> "Local Python service";
+  "Local Python service" -> "Loopback Chromium browser";
+}
