@@ -107,3 +107,7 @@ docs:
 release: docs test web
 	uv lock --check && uv build --wheel
 	git diff --check
+
+.PHONY: thesis
+thesis:
+	$(PY) -m scripts.build_thesis "$(EVIDENCE)" "evidence/$(RUN_ID)-thesis"
