@@ -17,3 +17,7 @@ The pinned data come from the February 2026 archive. WHO makes the files availab
 WHO population files contain midyear headcounts. Aevum never uses WPP modeled exposure as the denominator for WHO death counts. The source register distinguishes national tabulations from narrower registration coverage. Tabulated counts for the full territory do not by themselves establish registration completeness.
 
 [Source and data-use guidelines](https://www.who.int/data/data-collection-tools/who-mortality-database) · [WHO usability criteria](https://platform.who.int/mortality/about/data-quality)
+
+The historical-vintage comparison uses the official WPP 2022 archive. It matches source location identifiers to WPP 2024 and freezes 1970–2021 as the shared historical years. Official medium projections beginning in 2022 are excluded from the 2022 input and from the later target. [Vintage study](research/11-vintage.md)
+
+The WHO quality screen uses the 2026 methods annex for the GHE 2023 release. It requires the latest reported adult completeness benchmark at or above 95% and usable age-5+ cause data. Reporting area exclusions follow the life-table methods' named geographic gaps. The latest benchmark is retained with its reported year and cannot certify every earlier registration period. [Completeness annex](https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/ghe2023_lifetable_methods.pdf) · [Cause quality annex](https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/ghe2023_cod_methods.pdf)
