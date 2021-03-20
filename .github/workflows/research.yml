@@ -1,0 +1,61 @@
+name: Manually reproduce research
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Unique run identifier
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  campaign:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      RUN_ID: ${{ inputs.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          if ! [[ "$RUN_ID" =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ ]]; then
+            echo "Invalid research run ID"
+            exit 1
+          fi
+      - run: sudo apt-get update && sudo apt-get install --yes poppler-utils
+      - run: rustup toolchain install 1.88.0 --profile minimal && rustup override set 1.88.0
+      - run: make bootstrap
+      - run: npm --prefix web ci && npx --prefix web playwright install --with-deps chromium
+      - run: |
+          make acquire
+          make acquire SOURCE=who
+          make acquire SOURCE=quality
+          make acquire SOURCE=wpp2022
+      - id: run
+        run: make acceptance PROFILE=full RUN_ID="$RUN_ID"
+      - if: always() && steps.run.outcome != 'skipped'
+        run: make verify-candidate EVIDENCE="evidence/$RUN_ID"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-summary-${{ github.run_id }}
+          path: |
+            evidence/*/SOURCE_INPUTS.json
+            evidence/*/DATASETS.json
+            evidence/*/ENVIRONMENT.json
+            evidence/*/ACCEPTANCE.json
+            evidence/*/MANIFEST.json
+            evidence/*/study/SUMMARY.json
+            evidence/*/cause/summary.json
+            evidence/*/reference/summary.json
+            evidence/*/browser/browser.json
+          if-no-files-found: ignore
+          retention-days: 7
