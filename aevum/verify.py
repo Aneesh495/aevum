@@ -160,9 +160,9 @@ def verify_scoring(row: dict, widths: list[int | None], expected_rates, expected
     close(row["wis"], wis / 3.5, "weighted interval score")
 
 
-def _check_replay(result: dict, folder: Path, data_id: str, targets) -> None:
+def _check_replay(result: dict, folder: Path, data_id: str, targets) -> tuple[float, float]:
     import numpy as np
-    from .learned import load, predict, torch
+    from .learned import MortalityModel, load, predict, torch
 
     checkpoint = folder / "checkpoint.pt"
     require(result["checkpoint"] == checkpoint.name and checkpoint.is_file(), "missing required checkpoint")
@@ -181,14 +181,29 @@ def _check_replay(result: dict, folder: Path, data_id: str, targets) -> None:
     require(delta > 0 and raw["training_diagnostics"]["max_gradient"] > 0, "empty or unchanged optimization")
     close(raw["training_diagnostics"]["parameter_l2_change"], delta, "checkpoint parameter change", absolute=1e-5, relative=1e-6)
     years = tuple(model.support.origin + h for h in result["horizons"])
-    probes = (0, len(targets) // 2, len(targets) - 1)
-    predictions = np.exp(predict(model, tuple(targets[i] for i in probes), years))
+    predictions = np.exp(predict(model, targets, years))
+    with torch.random.fork_rng():
+        torch.manual_seed(model.spec.seed)
+        initial = MortalityModel(model.spec, model.support)
+        require(all(torch.allclose(tensor, raw["initial_parameters"][name], rtol=2e-6, atol=2e-7)
+                    for name, tensor in initial.named_parameters()), "checkpoint initial parameters mismatch")
+        control = np.exp(predict(initial, targets, years))
+    widths = grid_widths(result["age_grid"])
     by_id = {(row["country"], row["sex"], row["year"]): row for row in result["outcomes"]}
-    for i, group in enumerate(targets[pos] for pos in probes):
+    errors, control_errors = [], []
+    for i, group in enumerate(targets):
         for j, year in enumerate(years):
-            recorded = by_id[(group.country, group.sex, year)]["predicted_rates"]
-            for expected, saved in zip(predictions[i, j], recorded):
+            row = by_id[(group.country, group.sex, year)]
+            for expected, saved in zip(predictions[i, j], row["predicted_rates"], strict=True):
                 close(saved, float(expected), "frozen model replay", absolute=2e-7, relative=2e-6)
+            actual = fsum(force_life_years(widths, row["actual_rates"])[1])
+            errors.append(abs(actual - fsum(force_life_years(widths, predictions[i, j].tolist())[1])))
+            control_errors.append(abs(actual - fsum(force_life_years(widths, control[i, j].tolist())[1])))
+    trained = fsum(errors) / len(errors)
+    untrained = fsum(control_errors) / len(control_errors)
+    close(result["training"]["held_out_mae_trained"], trained, "trained MAE replay", absolute=1e-5)
+    close(result["training"]["held_out_mae_untrained"], untrained, "untrained MAE replay", absolute=1e-5)
+    return trained, untrained
 
 
 def verify_study(directory: Path, panel: Path, expected_commit: str) -> dict:
@@ -234,6 +249,8 @@ def verify_study(directory: Path, panel: Path, expected_commit: str) -> dict:
     widths = grid_widths(grid)
     results = Counter()
     replays = 0
+    learned_fits, improvements = 0, 0
+    transfer_regressions = []
     for task_id in sorted(expected_tasks):
         folder = directory / task_id
         result = read_json(folder / "result.json")
@@ -268,13 +285,21 @@ def verify_study(directory: Path, panel: Path, expected_commit: str) -> dict:
             results["evaluated_strata"] += 1
         require(not cells, "missing eligible historical outcomes")
         if task["family"] in learned_families:
-            _check_replay(result, folder, data_id, tuple(cube.groups[i] for i in sorted(targets)))
+            trained, untrained = _check_replay(result, folder, data_id, tuple(cube.groups[i] for i in sorted(targets)))
             replays += 1
+            if task["ablation"] != "calibration":
+                learned_fits += 1
+                improvements += int(trained < untrained)
+                if trained >= untrained:
+                    transfer_regressions.append(task_id)
         results["completed_comparisons"] += 1
         results["distinct_fits"] += int(task["ablation"] != "calibration")
         if task["mode"] == "rolling":
             results["rolling_fits"] += 1
-    return dict(results) | {"checkpoint_replays": replays}
+    return dict(results) | {
+        "checkpoint_replays": replays, "learned_fits": learned_fits,
+        "held_out_improvements": improvements, "nonimproving_fits": transfer_regressions,
+    }
 
 
 def verify_demo(directory: Path, expected_commit: str) -> dict:

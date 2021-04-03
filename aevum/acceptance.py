@@ -14,13 +14,54 @@ import sys
 import time
 
 from .acquire import ROOT, digest, trusted_sources
+from .publication import RESEARCH, matches, verify_publication
 from .study import _git, json_atomic
 from .verify import read_json, require, source_manifest, verify_manifest, manifest_files
 
-UNRESOLVED = {
-    "G13": "Focused results and thesis require final scientific review.",
-    "G15": "Full release and all project acceptance requirements must be independently audited.",
+DIAGNOSTIC_STEPS = ("build", "tests", "demo", "stress", "stress-verification")
+FULL_STEPS = DIAGNOSTIC_STEPS + (
+    "wpp", "who", "reference", "age-sensitivity", "cause-study", "synthetic-recovery", "backtest",
+    "backtest-verification", "vintage", "serve-fit", "web-build", "browser", "replay-control",
+)
+GATE_STEPS = {
+    "G01": {"wpp", "who", "cause-study"}, "G02": {"stress", "stress-verification", "tests"}, "G03": {"reference"},
+    "G04": {"tests"}, "G05": {"tests", "backtest-verification"},
+    "G07": {"backtest", "backtest-verification"}, "G08": {"backtest-verification"},
+    "G09": {"demo", "cause-study"}, "G10": {"cause-study", "tests"},
+    "G11": {"synthetic-recovery"}, "G12": {"browser"}, "G14": {"demo", "replay-control"},
 }
+
+
+def _gates(profile: str, passed: set[str], learned: tuple[int, int] | None = None) -> dict:
+    gates = {f"G{i:02d}": {"status": "unverified"} for i in range(1, 16)}
+    if profile == "full":
+        for gate, names in GATE_STEPS.items():
+            gates[gate] = {"status": "passed" if names <= passed else "failed", "steps": sorted(names)}
+        if learned is not None:
+            fits, wins = learned
+            gates["G06"] = {"status": "passed" if fits == wins == 129 else "failed",
+                            "held_out_improvements": wins, "learned_fits": fits}
+        gates["G13"]["detail"] = "A reviewed manuscript and figure receipts must match this campaign."
+        gates["G15"]["detail"] = "A trusted independent release review must match this campaign."
+    return gates
+
+
+def _full_pass(profile: str, gates: dict) -> bool:
+    return profile == "full" and all(gates.get(f"G{i:02d}", {}).get("status") == "passed" for i in range(1, 16))
+
+
+def _release_review(path: Path, sha256: str, directory: Path, commit: str) -> dict:
+    require(not path.resolve().is_relative_to(directory.resolve()), "release review must be external to the candidate")
+    require(digest(path) == sha256, "trusted release review SHA-256 mismatch")
+    review = read_json(path)
+    require(review["source_commit"] == commit and review["manifest_sha256"] == digest(directory / "MANIFEST.json"),
+            "release review covers a different source or campaign")
+    checks = {"capability_audit", "private_requirements", "clean_checkout_demo", "hosted_publication"}
+    require(set(review["checks"]) == checks and all(x in {"passed", "failed"} for x in review["checks"].values()),
+            "release review check list is incomplete")
+    require(bool(review["reviewer"].strip()) and bool(review["report"].strip()), "release review lacks attribution")
+    return {"status": "passed" if all(x == "passed" for x in review["checks"].values()) else "failed",
+            "review_sha256": sha256, "checks": review["checks"]}
 
 
 def _run(root: Path, name: str, command: list[str], *, timeout: int, extra_env: dict | None = None) -> dict:
@@ -109,55 +150,41 @@ def execute(output: Path, raw: Path, profile: str) -> dict:
         env = {"AEVUM_PANEL": str(output / "wpp.parquet"), "AEVUM_CAUSES": str(output / "who.parquet")} if name == "browser" else None
         commands.append(_run(output, name, command, timeout=limit, extra_env=env))
     passed = {item["step"] for item in commands if item["exit"] == 0}
-    gates = {f"G{i:02d}": {"status": "unverified"} for i in range(1, 16)}
-
-    def step_gate(gate: str, names: set[str]):
-        gate_status = "passed" if names <= passed else "failed"
-        gates[gate] = {"status": gate_status, "steps": sorted(names)}
-
-    if profile == "full":
-        for gate, names in {
-            "G01": {"wpp", "who", "cause-study"}, "G02": {"stress", "stress-verification", "tests"}, "G03": {"reference"},
-            "G04": {"tests"}, "G05": {"tests", "backtest-verification"},
-            "G07": {"backtest", "backtest-verification"}, "G08": {"backtest-verification"},
-            "G09": {"demo", "cause-study"}, "G10": {"cause-study", "tests"},
-            "G11": {"synthetic-recovery"}, "G12": {"browser"}, "G14": {"demo", "replay-control"},
-        }.items():
-            step_gate(gate, names)
-        if "backtest" in passed:
-            probes = [read_json(path)["training"] for path in (output / "study").glob("*/result.json")]
-            learned = [x for x in probes if "held_out_mae_trained" in x and "reused_fit" not in x]
-            wins = sum(x["held_out_mae_trained"] < x["held_out_mae_untrained"] for x in learned)
-            gates["G06"] = {"status": "passed" if len(learned) == wins == 129 else "failed",
-                            "held_out_improvements": wins, "learned_fits": len(learned)}
-        for gate, detail in UNRESOLVED.items():
-            gates[gate] = {"status": "unverified", "detail": detail}
+    learned = None
+    if "backtest" in passed:
+        probes = [read_json(path)["training"] for path in (output / "study").glob("*/result.json")]
+        fits = [x for x in probes if "held_out_mae_trained" in x and "reused_fit" not in x]
+        learned = len(fits), sum(x["held_out_mae_trained"] < x["held_out_mae_untrained"] for x in fits)
+    gates = _gates(profile, passed, learned)
     result = {"profile": profile, "commit": commit, "gates": gates,
               "required_steps": [name for name, *_ in steps],
               "successful_steps": len(passed), "failed_steps": [item["step"] for item in commands if item["exit"] != 0],
-              "full_pass": False}
+              "full_pass": _full_pass(profile, gates)}
     json_atomic(output / "ACCEPTANCE.json", result)
     json_atomic(output / "MANIFEST.json", manifest_files(output))
     return result
 
 
-def verify_candidate(directory: Path, expected_commit: str) -> dict:
+def verify_candidate(
+    directory: Path, expected_commit: str, *, release_review: tuple[Path, str] | None = None,
+) -> dict:
     from .verify import verify_demo, verify_stress, verify_study
     from .verify_domains import check_causes, check_recovery, published_tables
 
     verify_manifest(directory)
-    require(read_json(directory / "SOURCE_INPUTS.json") == source_manifest(expected_commit), "candidate source mismatch")
+    source = source_manifest(expected_commit)
+    require(read_json(directory / "SOURCE_INPUTS.json") == source, "candidate source mismatch")
     result = read_json(directory / "ACCEPTANCE.json")
-    require(result["commit"] == source_manifest(expected_commit)["commit"], "candidate commit mismatch")
+    require(result["commit"] == source["commit"], "candidate commit mismatch")
     profile = result["profile"]
     require(profile in {"full", "diagnostic"}, "unsupported evidence profile")
     raw_commands = (directory / "COMMANDS.jsonl").read_text().splitlines()
     commands = [json.loads(row) for row in raw_commands]
     names = [item["step"] for item in commands]
-    require(names == result["required_steps"] and len(set(names)) == len(names), "command evidence incomplete")
+    expected = FULL_STEPS if profile == "full" else DIAGNOSTIC_STEPS
+    require(tuple(names) == expected and names == result["required_steps"], "command evidence incomplete")
     require(all(item["exit"] == 0 and item["completed"] == 1 and item["requested"] == 1 for item in commands),
             "at least one research command failed or was incomplete")
-    require("demo" in names and "stress-verification" in names and "tests" in names, "missing required diagnostic execution")
     demo = verify_demo(directory / "demo", expected_commit)
     tables = 10_000 if profile == "full" else 200
     verify_stress(directory / "stress.jsonl", count=tables)
@@ -166,10 +193,11 @@ def verify_candidate(directory: Path, expected_commit: str) -> dict:
             and all(x["exit"] == 1 and x["passed"] is True and x["stderr"] for x in controls),
             "semantic controls missing or unexpected exit")
     info = {"profile": profile, "demo": demo, "verified_stress_tables": tables}
+    learned = None
     if profile == "full":
-        require({"reference", "cause-study", "backtest", "backtest-verification", "replay-control", "synthetic-recovery"} <= set(names),
-                "missing required research execution")
-        info["study"] = verify_study(directory / "study", directory / "wpp.parquet", expected_commit)
+        study = verify_study(directory / "study", directory / "wpp.parquet", expected_commit)
+        info["study"] = study
+        learned = study["learned_fits"], study["held_out_improvements"]
         info["known_truth_panels"] = check_recovery(directory / "recovery.jsonl")
         info["reference"] = published_tables(directory / "reference")
         info["cause_study"] = check_causes(directory / "who.parquet", directory / "cause")
@@ -181,7 +209,18 @@ def verify_candidate(directory: Path, expected_commit: str) -> dict:
         info["browser_p95_ms"] = samples[37]
         replay = read_json(directory / "REPLAY_CONTROL.json")
         require(replay["exit"] == 1 and "frozen model replay" in replay["stderr"], "failed replay negative control missing")
-    info["full_acceptance"] = False
+    gates = _gates(profile, set(names), learned)
+    if profile == "full":
+        record = RESEARCH / "PUBLICATION.json"
+        if record.is_file():
+            publication = read_json(record)
+            if matches(publication, directory, source["commit"]):
+                verify_publication(publication, directory)
+                gates["G13"] = {"status": "passed", "publication_run": publication["run"]}
+        if release_review is not None:
+            gates["G15"] = _release_review(*release_review, directory, source["commit"])
+    info["gates"] = gates
+    info["full_acceptance"] = _full_pass(profile, gates)
     return info
 
 
@@ -192,6 +231,8 @@ if __name__ == "__main__":
     parser.add_argument("--raw", type=Path, default=Path("data/raw"))
     parser.add_argument("--profile", choices=("diagnostic", "full"), default="diagnostic")
     parser.add_argument("--expected-commit")
+    parser.add_argument("--release-review", type=Path)
+    parser.add_argument("--release-review-sha256")
     parser.add_argument("--candidate", action="store_true", help="verify completed evidence without certifying all research gates")
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9._-]{1,96}", args.out.name):
@@ -202,10 +243,15 @@ if __name__ == "__main__":
         raise SystemExit(int(bool(result["failed_steps"]) or args.profile == "full" and not result["full_pass"]))
     if not args.expected_commit:
         parser.error("--expected-commit is required for verification")
+    if bool(args.release_review) != bool(args.release_review_sha256):
+        parser.error("supply both --release-review and its independently trusted SHA-256")
+    release_review = (args.release_review, args.release_review_sha256) if args.release_review else None
     try:
-        result = verify_candidate(args.out, args.expected_commit)
+        result = verify_candidate(args.out, args.expected_commit, release_review=release_review)
     except (ArithmeticError, OSError, ValueError, TypeError, KeyError) as exc:
         parser.exit(1, f"Verification failed: {exc}\n")
     print(json.dumps(result, sort_keys=True))
-    if result["profile"] == "full" and not args.candidate:
-        parser.exit(1, "Evidence checked, but mandatory full research gates remain open.\n")
+    if result["profile"] == "full" and not args.candidate and not result["full_acceptance"]:
+        blockers = ", ".join(f"{gate} {item['status']}" for gate, item in result["gates"].items()
+                             if item["status"] != "passed")
+        parser.exit(1, f"Full acceptance blocked by {blockers}.\n")

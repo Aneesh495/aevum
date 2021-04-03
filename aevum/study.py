@@ -43,12 +43,18 @@ def protocol() -> dict:
     return json.loads((ROOT / "config/experiment-v1.json").read_text())
 
 
+PROFILES = ("baselines", "diagnostic", "full")
+
+
 def plan(cube: Cube, profile: str) -> Iterator[Task]:
+    if profile not in PROFILES:
+        raise ValueError("unrecognized experiment profile")
     cfg = protocol()
-    if profile == "diagnostic":
+    if profile != "full":
         yield from (Task("rolling", 2019, family) for family in baselines.FAMILIES)
-        yield Task("rolling", 2019, "structured", cfg["seeds"][0])
-        yield Task("rolling", 2019, "state_space", cfg["seeds"][0])
+        if profile == "diagnostic":
+            yield Task("rolling", 2019, "structured", cfg["seeds"][0])
+            yield Task("rolling", 2019, "state_space", cfg["seeds"][0])
         return
     for origin in cfg["origins"]:
         yield from (Task("rolling", origin, family) for family in baselines.FAMILIES)
@@ -222,7 +228,7 @@ def _git(*args: str) -> str:
 
 
 def run(panel: Path, directory: Path, profile: str, resume: bool = False) -> dict:
-    if profile not in {"diagnostic", "full"}:
+    if profile not in PROFILES:
         raise ValueError("unrecognized experiment profile")
     panel = panel.resolve()
     data_id = digest(panel)
@@ -284,7 +290,7 @@ def run(panel: Path, directory: Path, profile: str, resume: bool = False) -> dic
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--panel", type=Path, default=Path("data/wpp.parquet"))
-    parser.add_argument("--profile", choices=("diagnostic", "full"), required=True)
+    parser.add_argument("--profile", choices=PROFILES, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
