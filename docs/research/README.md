@@ -1,6 +1,6 @@
 # Research notes
 
-[Main paper](THESIS.md) · [Claim and evidence ledger](CLAIMS.md)
+[Main paper](THESIS.md) · [Claim and evidence ledger](CLAIMS.md) · [Publication receipt](PUBLICATION.json)
 
 1. [Exposure alignment](01-exposure.md)
 2. [Published age-pattern reconstruction](02-reconstruction.md)

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 204" role="img">
+<title>Count and log-rate fits in known-truth panels</title><rect width="100%" height="100%" fill="#fbfaf4"/>
+<text x="24" y="32" font-family="Georgia, serif" font-size="22" fill="#163034">Count and log-rate fits in known-truth panels</text>
+<text x="24" y="54" font-family="sans-serif" font-size="13" fill="#48615d">Five-year e₀ MAE, years</text>
+<path d="M275.00 67V190" stroke="#82958c"/>
+<text x="24" y="86" font-family="sans-serif" font-size="14" fill="#163034">shock and cohort / count trend</text>
+<rect x="275.00" y="74" width="347.67" height="15" fill="#187765"/>
+<text x="738" y="86" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">3.3208</text>
+<text x="24" y="113" font-family="sans-serif" font-size="14" fill="#163034">shock and cohort / lee carter</text>
+<rect x="275.00" y="101" width="385.00" height="15" fill="#187765"/>
+<text x="738" y="113" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">3.6774</text>
+<text x="24" y="140" font-family="sans-serif" font-size="14" fill="#163034">stable drift / count trend</text>
+<rect x="275.00" y="128" width="93.44" height="15" fill="#187765"/>
+<text x="738" y="140" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">0.89251</text>
+<text x="24" y="167" font-family="sans-serif" font-size="14" fill="#163034">stable drift / lee carter</text>
+<rect x="275.00" y="155" width="62.39" height="15" fill="#187765"/>
+<text x="738" y="167" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">0.59594</text>
+</svg>

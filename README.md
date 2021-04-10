@@ -20,6 +20,7 @@ For the real-data dashboard, see [reproduction and setup](docs/REPRODUCING.md). 
 
 The historical panel covers 42 countries and 54 years for both published sex series. The UN values are modeled historical estimates, while the WHO analysis uses separate vital-registration tabulations. The rolling forecast matrix compares four baselines and two learned alternatives. The best baseline led at each tested horizon. Eight learned transfer comparisons performed worse than their untrained controls. See the [paper](docs/research/THESIS.md), [focused notes](docs/research/README.md), and [build status](docs/BUILD_STATUS.md).
 
+- [Publication receipt and run-linked figures](docs/research/PUBLICATION.json)
 - [Data and licensing](docs/DATA.md)
 - [Architecture, diagrams, and walkthroughs](docs/ARCHITECTURE.md)
 - [Demographic specification](docs/SPECIFICATION.md)

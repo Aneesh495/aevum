@@ -3,3 +3,7 @@
 With log mean log E + η, doubling person-years at fixed rate doubles expected deaths. The Poisson objective includes reported zeros without a rate substitution. Log-rate SVD uses a half-death proxy at zeros. NB2 allows variance μ + αμ² and is sensitive to its regularization and optimizer budget. The recorded Pearson diagnostics expose poor count fit in the WPP quasi-likelihood case, where modeled counts carry smoothing and revision error.
 
 In 100 stable, four-population known-truth simulations, the five-year count trend has e0 MAE 0.893 years and 80% coverage 4.0%, compared with 0.596 years and 82.5% for Lee-Carter. Under the 100 shock and cohort scenarios, count trend MAE is lower at 3.321 years versus 3.677, while both under-cover. Age-specific regularization and a matching likelihood alone do not make a linear trend adequate. The unit of evaluation is the simulated period schedule with deaths per person-year as the model input. [Raw plotted scores](figures/synthetic.csv)
+
+![Count and log-rate fits in known-truth panels](figures/05-counts.svg)
+
+200 synthetic panels, 100 per regime, four populations per panel, ages through 90+. Deaths per person-year. [Plot data](figures/05-counts.csv) · [Campaign and source receipts](PUBLICATION.json)

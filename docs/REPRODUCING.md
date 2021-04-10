@@ -21,6 +21,7 @@ make acquire SOURCE=who
 make acquire SOURCE=quality
 make acquire SOURCE=wpp2022
 make data who-data
+make fit-baselines RUN_ID=baselines
 make train RUN_ID=serving
 make forecast RUN_ID=serving
 make serve CHECKPOINT=evidence/serving-checkpoint.pt
@@ -38,7 +39,23 @@ make verify-candidate EVIDENCE=evidence/local-campaign
 make verify EVIDENCE=evidence/local-campaign
 ```
 
-The campaign reports nonzero on open full acceptance gates. `verify-candidate` independently checks the available workload, while full verification also requires the research acceptance audit. A run manifest covers the staged panels and all emitted evidence, including nested checkpoint files, command exits, separate benchmark samples, and retained failures. Verify against a trusted source commit. Use `EXPECTED_COMMIT=<git-sha>` when viewing reports from a subsequent documentation checkout.
+The campaign reports nonzero on open full acceptance gates. `verify-candidate` checks the evidence and reports each gate. Full verification succeeds only when all 15 gates pass. The verifier replays each saved learned model and its seeded initialization across the held-out cells before scoring G06. A run manifest covers staged panels, nested checkpoint files, command exits, benchmark samples, and retained failures. Use `EXPECTED_COMMIT=<git-sha>` when verifying from a later checkout.
+
+The G15 release review comes from outside the candidate. Pass its path as `RELEASE_REVIEW` and its independently trusted SHA-256 as `RELEASE_REVIEW_SHA256`. The JSON must identify `source_commit`, `manifest_sha256`, `reviewer`, and `report`. Its `checks` object must record `capability_audit`, `private_requirements`, `clean_checkout_demo`, and `hosted_publication` as `passed` or `failed`. Candidate metadata alone cannot supply an external review.
+
+## Export the reviewed manuscript
+
+From the repository root, set `EVIDENCE` to the extracted `research-candidate-v1` directory.
+
+```sh
+make thesis RUN_ID=published-thesis EVIDENCE=research-candidate-v1
+```
+
+The export includes the manuscript, focused notes, plot data, and [publication receipt](research/PUBLICATION.json). It requires the exact archived manifest. For a different campaign, use the result summarizer to inspect its results before revising the manuscript. The figure builder regenerates the focused figures and their source receipts from campaign artifacts, including the cohort forecast replay.
+
+```sh
+.venv/bin/python -m scripts.research_figures research-candidate-v1 evidence/regenerated-figures
+```
 
 ## Restart and failure policy
 
@@ -52,4 +69,4 @@ The campaign reports nonzero on open full acceptance gates. `verify-candidate` i
 
 `SOURCE_INPUTS.json` identifies Git blobs and executable commit. `DATASETS.json` carries release URLs, vintage and SHA-256. `COMMANDS.jsonl` records actual process exits, elapsed time and child resource high-water marks. `MANIFEST.json` binds membership and bytes. `ACCEPTANCE.json` distinguishes passed, failed and open gates. The verifier recomputes life tables, cause partitions, interval scores, recovery summaries, and frozen checkpoint probes independently of the result writer.
 
-Raw input archives and restricted WHO records remain local. The source receipts and commands allow independent acquisition and verification. Figures are derived from run-linked scores retained with the research notes.
+Raw input archives and restricted WHO records remain local. The source receipts and commands allow independent acquisition and verification. Figures are derived from run-linked scores retained with the research notes. The preview runs from a source checkout, where the Rust kernel and dashboard assets are built alongside the Python package.
