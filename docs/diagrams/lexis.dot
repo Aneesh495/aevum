@@ -1,0 +1,10 @@
+digraph Aevum {
+  rankdir=TB;
+  graph [bgcolor="#fbfaf4", pad=.25, nodesep=.35, ranksep=.55];
+  node [shape=box, style="rounded,filled", fillcolor="#eff5ed", color="#54857b", fontname="Helvetica", margin=".16,.12"];
+  edge [color="#36585d"];
+  "Birth year b" -> "Age 0 at period b";
+  "Age 0 at period b" -> "Age 1 at period b+1";
+  "Age 1 at period b+1" -> "Age x at period b+x";
+  "Age x at period b+x" -> "Stop or model beyond available cells";
+}
