@@ -8,4 +8,17 @@ build:
 
 test: build
 	cargo test --locked --manifest-path native/Cargo.toml
-	python3.13 -m unittest discover -s tests -v
+	$(PY) -m unittest discover -s tests -v
+
+PY := .venv/bin/python
+SOURCE ?= wpp
+
+.PHONY: bootstrap acquire data
+bootstrap:
+	uv sync --locked
+
+acquire:
+	python3.13 -m aevum.acquire $(SOURCE)
+
+data:
+	$(PY) -m aevum.wpp
