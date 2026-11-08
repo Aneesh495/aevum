@@ -1,6 +1,6 @@
 .PHONY: doctor
 doctor:
-	python3.13 -c 'import platform, shutil; print(platform.platform()); print(shutil.disk_usage("."))'
+	$(PY) -m aevum.doctor
 
 .PHONY: build test
 build:
@@ -58,7 +58,11 @@ demo: build
 	$(PY) -m aevum.demo evidence/$(RUN_ID)-demo --controls evidence/$(RUN_ID)-negative-controls.json
 
 verify:
-	$(PY) -m aevum.verify demo $(EVIDENCE) --expected-commit $(EXPECTED_COMMIT)
+	@if test -f "$(EVIDENCE)/ACCEPTANCE.json"; then \
+	    $(PY) -m aevum.acceptance verify --out "$(EVIDENCE)" --expected-commit "$(EXPECTED_COMMIT)"; \
+	else \
+	    $(PY) -m aevum.verify demo "$(EVIDENCE)" --expected-commit "$(EXPECTED_COMMIT)"; \
+	fi
 
 CHECKPOINT ?=
 PORT ?= 8078
@@ -76,3 +80,30 @@ forecast: build
 
 synthetic-recovery:
 	$(THREADS) $(PY) -m aevum.recovery --out evidence/$(RUN_ID)-recovery.jsonl
+
+RAW ?= data/raw
+
+.PHONY: acceptance verify-candidate decompose
+decompose: build
+	$(PY) -m aevum.cause_study --raw $(RAW) --out evidence/$(RUN_ID)-cause-study
+
+acceptance: build
+	$(THREADS) $(PY) -m aevum.acceptance run --profile $(PROFILE) --raw $(RAW) --out evidence/$(RUN_ID)
+
+verify-candidate:
+	$(THREADS) $(PY) -m aevum.acceptance verify --out $(EVIDENCE) --expected-commit $(EXPECTED_COMMIT) --candidate
+
+.PHONY: vintages
+vintages:
+	$(THREADS) $(PY) -m aevum.vintages --raw $(RAW) --out evidence/$(RUN_ID)-vintages
+
+.PHONY: bench docs release
+bench: web build
+	PORT=$(PORT) scripts/browser-bench.sh "$(if $(CHECKPOINT),$(CHECKPOINT),evidence/$(RUN_ID)-checkpoint.pt)" "evidence/$(RUN_ID)-browser"
+
+docs:
+	python3.13 scripts/check_docs.py
+
+release: docs test web
+	uv lock --check && uv build --wheel
+	git diff --check
