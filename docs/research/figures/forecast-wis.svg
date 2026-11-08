@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 400" role="img">
+<title>Forecast error across horizons</title><rect width="100%" height="100%" fill="#fbfaf4"/>
+<text x="35" y="33" font-family="Georgia" font-size="23" fill="#163034">Forecast error across horizons</text>
+<path d="M73 342.0H585" stroke="#d1dbd4"/>
+<text x="64" y="346.0" text-anchor="end" font-family="monospace" font-size="12">0.00</text>
+<path d="M73 284.6H585" stroke="#d1dbd4"/>
+<text x="64" y="288.6" text-anchor="end" font-family="monospace" font-size="12">0.53</text>
+<path d="M73 227.2H585" stroke="#d1dbd4"/>
+<text x="64" y="231.2" text-anchor="end" font-family="monospace" font-size="12">1.06</text>
+<path d="M73 169.79999999999998H585" stroke="#d1dbd4"/>
+<text x="64" y="173.79999999999998" text-anchor="end" font-family="monospace" font-size="12">1.58</text>
+<path d="M73 112.39999999999998H585" stroke="#d1dbd4"/>
+<text x="64" y="116.39999999999998" text-anchor="end" font-family="monospace" font-size="12">2.11</text>
+<path d="M73 55.0H585" stroke="#d1dbd4"/>
+<text x="64" y="59.0" text-anchor="end" font-family="monospace" font-size="12">2.64</text>
+<text x="73.0" y="366" text-anchor="middle" font-family="monospace" font-size="12">1y</text>
+<text x="180.78947368421052" y="366" text-anchor="middle" font-family="monospace" font-size="12">5y</text>
+<text x="315.52631578947364" y="366" text-anchor="middle" font-family="monospace" font-size="12">10y</text>
+<text x="585.0" y="366" text-anchor="middle" font-family="monospace" font-size="12">20y</text>
+<polyline points="73.0,248.4 180.8,239.4 315.5,202.0 585.0,132.2" stroke="#213c53" fill="none" stroke-width="3"/>
+<circle cx="73.0" cy="248.4" r="3.5" fill="#213c53"/>
+<circle cx="180.8" cy="239.4" r="3.5" fill="#213c53"/>
+<circle cx="315.5" cy="202.0" r="3.5" fill="#213c53"/>
+<circle cx="585.0" cy="132.2" r="3.5" fill="#213c53"/>
+<path d="M615 77h22" stroke="#213c53" stroke-width="3"/>
+<text x="647" y="80" font-family="sans-serif" font-size="13">apc</text>
+<polyline points="73.0,304.7 180.8,254.4 315.5,207.4 585.0,124.0" stroke="#ca644a" fill="none" stroke-width="3"/>
+<circle cx="73.0" cy="304.7" r="3.5" fill="#ca644a"/>
+<circle cx="180.8" cy="254.4" r="3.5" fill="#ca644a"/>
+<circle cx="315.5" cy="207.4" r="3.5" fill="#ca644a"/>
+<circle cx="585.0" cy="124.0" r="3.5" fill="#ca644a"/>
+<path d="M615 103h22" stroke="#ca644a" stroke-width="3"/>
+<text x="647" y="106" font-family="sans-serif" font-size="13">coherent</text>
+<polyline points="73.0,235.4 180.8,221.7 315.5,199.5 585.0,160.7" stroke="#6d8c45" fill="none" stroke-width="3"/>
+<circle cx="73.0" cy="235.4" r="3.5" fill="#6d8c45"/>
+<circle cx="180.8" cy="221.7" r="3.5" fill="#6d8c45"/>
+<circle cx="315.5" cy="199.5" r="3.5" fill="#6d8c45"/>
+<circle cx="585.0" cy="160.7" r="3.5" fill="#6d8c45"/>
+<path d="M615 129h22" stroke="#6d8c45" stroke-width="3"/>
+<text x="647" y="132" font-family="sans-serif" font-size="13">count trend</text>
+<polyline points="73.0,288.5 180.8,267.8 315.5,220.2 585.0,146.4" stroke="#507fa6" fill="none" stroke-width="3"/>
+<circle cx="73.0" cy="288.5" r="3.5" fill="#507fa6"/>
+<circle cx="180.8" cy="267.8" r="3.5" fill="#507fa6"/>
+<circle cx="315.5" cy="220.2" r="3.5" fill="#507fa6"/>
+<circle cx="585.0" cy="146.4" r="3.5" fill="#507fa6"/>
+<path d="M615 155h22" stroke="#507fa6" stroke-width="3"/>
+<text x="647" y="158" font-family="sans-serif" font-size="13">lee carter</text>
+<polyline points="73.0,172.6 180.8,171.5 315.5,159.2 585.0,116.6" stroke="#9d668c" fill="none" stroke-width="3"/>
+<circle cx="73.0" cy="172.6" r="3.5" fill="#9d668c"/>
+<circle cx="180.8" cy="171.5" r="3.5" fill="#9d668c"/>
+<circle cx="315.5" cy="159.2" r="3.5" fill="#9d668c"/>
+<circle cx="585.0" cy="116.6" r="3.5" fill="#9d668c"/>
+<path d="M615 181h22" stroke="#9d668c" stroke-width="3"/>
+<text x="647" y="184" font-family="sans-serif" font-size="13">state space</text>
+<polyline points="73.0,170.5 180.8,163.9 315.5,140.7 585.0,81.1" stroke="#187765" fill="none" stroke-width="3"/>
+<circle cx="73.0" cy="170.5" r="3.5" fill="#187765"/>
+<circle cx="180.8" cy="163.9" r="3.5" fill="#187765"/>
+<circle cx="315.5" cy="140.7" r="3.5" fill="#187765"/>
+<circle cx="585.0" cy="81.1" r="3.5" fill="#187765"/>
+<path d="M615 207h22" stroke="#187765" stroke-width="3"/>
+<text x="647" y="210" font-family="sans-serif" font-size="13">structured</text>
+<text x="73" y="390" font-family="monospace" font-size="12">Weighted interval score in period life-expectancy years</text></svg>

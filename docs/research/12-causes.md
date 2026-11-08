@@ -1,0 +1,5 @@
+# Cause coding and completeness
+
+The cause study uses February 2026 national ICD-10 detail in a fixed four-character list and age format. It rejects unsupported tabulation lists and unresolved territorial coverage. Broad chapter groups keep ill-defined codes and residual counts separate. Twenty-one countries pass the both-sex 2008–2022 screen with unknown plus residual at most 10%, an adult completeness benchmark of at least 95%, and the WHO age-5+ usability criterion.
+
+A trailing 2014–2018 cause profile forecasts the distribution conditional on each held-out all-cause count. Mean absolute category share error rises from 0.0057 in 2019 to 0.0304 in 2021. A split by coding chapter can be informative even without age-specific exposure. It cannot identify whether the change reflects incidence, death certification, registration delay, or switching in the attributed underlying cause. The quality benchmark measures the latest usable adult year, and the study records that year for each country. [Source and quality protocol](../DATA.md) · [Cause evidence](CLAIMS.md)

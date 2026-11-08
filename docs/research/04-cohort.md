@@ -1,0 +1,5 @@
+# Period expectancy and the cohort diagonal
+
+The 2021 female period comparison between Japan and the United States gives 87.65 versus 79.33 years under the 20-band constant-force method. These expectancies apply a single calendar year's schedule to synthetic lifetimes. The cohort diagonal instead uses one single-age period rate at each subsequent age and year. For 1980 births the stage supplies 44 such single-age cells through 2023. An unobserved tail prevents a lifetime estimate.
+
+A separate path for 1950 births conditions on survival to age 20 in 1970. It follows exact WPP 2024 single-age period coordinates through 2023 and then the frozen seed-731 structured forecasts through the 90+ closure in 2040. The Japan female point forecast gives 67.28 remaining years under this path. Future model bands assume constant age rates within each bin. The estimated period diagonal mixes exposure from adjacent actual birth cohorts. The exported path preserves these assumptions and interval provenance. [Cohort implementation](../../aevum/cohort_forecast.py) · [Dashboard](../media/period-atlas.png)
