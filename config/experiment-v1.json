@@ -1,0 +1,14 @@
+{
+  "name": "wpp-retrospective-v1",
+  "origins": [1995, 1997, 1999, 2001, 2003, 2008, 2010, 2012, 2014, 2017, 2019, 2020, 2022],
+  "horizons": [1, 5, 10, 20],
+  "seeds": [731, 1907, 4801],
+  "steps": 120,
+  "draws": 64,
+  "transfer_origin": 2013,
+  "transfer_countries": ["AUS", "BRA", "IND", "KEN", "SWE", "USA"],
+  "ablation_origins": [2003, 2019],
+  "synthetic_cases": 200,
+  "stress_tables": 10000,
+  "reference_years": [1990, 2019, 2021]
+}
