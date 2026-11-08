@@ -66,8 +66,12 @@ class Cube:
         )
 
 
-def load_wpp(path: Path) -> Cube:
+def load_wpp(path: Path, *, vintage: str = VINTAGE) -> Cube:
     regions, first, last = frame()
+    cutoff = {VINTAGE: HISTORICAL_END, "WPP2022-original": 2021}
+    if vintage not in cutoff:
+        raise ValueError("unsupported WPP historical release")
+    last = cutoff[vintage]
     years = tuple(range(first, last + 1))
     groups = tuple(
         Population(country, sex, regions[country])
@@ -93,7 +97,7 @@ def load_wpp(path: Path) -> Cube:
                        OR age_start IS NULL OR age_start NOT BETWEEN 0 AND 100
                        OR age_end IS DISTINCT FROM CASE WHEN age_start < 100 THEN age_start + 1 END)
             FROM read_parquet(?)
-        """, [VINTAGE, HISTORICAL_END, str(path)]).fetchone()
+        """, [vintage, last, str(path)]).fetchone()
         cells = len(groups) * len(years) * 101
         if validity != (cells, cells, 0):
             raise ValueError("WPP panel contains invalid provenance, units or support")
@@ -119,5 +123,5 @@ def load_wpp(path: Path) -> Cube:
     return Cube(
         groups, years, ages,
         arrow["deaths"].to_numpy().reshape(shape), arrow["exposure"].to_numpy().reshape(shape),
-        Status.ESTIMATED, VINTAGE,
+        Status.ESTIMATED, vintage,
     )

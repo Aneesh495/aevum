@@ -23,5 +23,22 @@
       "morticd10_part6.zip": "cfbb3374a460c71dfb943bef8556396335f5449eccf655adbb4575c5ee6b7197",
       "mort_country_codes.zip": "8c410820356fc572845b5281b36f638e044a565f808c4e72efc8fb69b07df6b2"
     }
+  },
+  "quality": {
+    "base": "https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/",
+    "vintage": "WHO-GHE-2023-methods-2026-09",
+    "max_bytes": 15000000,
+    "files": {
+      "ghe2023_cod_methods.pdf": "1b2bcac3e154eeb73c07c1cc007dfc1739a8f6ecfbd2c1c07be6f0881eef526e",
+      "ghe2023_lifetable_methods.pdf": "bc798f997419c3980d88fee2e2880bf6b38541f66d80d56cf1b516956477b36c"
+    }
+  },
+  "wpp2022": {
+    "base": "https://population.un.org/wpp/assets/Excel%20Files/5_Archive/",
+    "vintage": "WPP2022-original",
+    "max_bytes": 4500000000,
+    "files": {
+      "WPP2022-CSV-data.zip": "bb696200203e9b786f6baca0df813617f9cfa3e3e99fecc9ee7ad534c0b4dcc7"
+    }
   }
 }

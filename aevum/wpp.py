@@ -34,8 +34,16 @@ def stage_panel(raw: Path, dest: Path) -> dict:
     deaths = get_source(raw, "wpp", PREFIX + "DeathsBySingleAgeSex" + SUFFIX)
     exposures = get_source(raw, "wpp", PREFIX + "PopulationExposureBySingleAgeSex" + SUFFIX)
     checksums = trusted_sources()["wpp"]["files"]
-    regions, first, last = frame()
-    if last != HISTORICAL_END or not 1950 <= first <= last:
+    _, first, last = frame()
+    return stage_pair(deaths, exposures, dest, first, last, VINTAGE, checksums[deaths.name], checksums[exposures.name])
+
+
+def stage_pair(
+    deaths: Path, exposures: Path, dest: Path, first: int, last: int, vintage: str,
+    death_digest: str, exposure_digest: str,
+) -> dict:
+    regions, _, _ = frame()
+    if not 1950 <= first <= last <= HISTORICAL_END:
         raise ValueError("invalid WPP historical panel window")
     frame_table = pa.table({"iso": list(regions), "region": list(regions.values())})
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -79,7 +87,7 @@ def stage_panel(raw: Path, dest: Path) -> dict:
             CROSS JOIN LATERAL (
                 VALUES ('female', d.female, e.female), ('male', d.male, e.male)
             ) t(sex, deaths, exposure)
-            """, [VINTAGE, checksums[deaths.name], checksums[exposures.name]])
+            """, [vintage, death_digest, exposure_digest])
         per_source = len(regions) * (last - first + 1) * 101
         for name in ("deaths", "exposures"):
             rows, unique, populations = con.execute(f"""
@@ -102,7 +110,7 @@ def stage_panel(raw: Path, dest: Path) -> dict:
         )
         staged.replace(dest)
     return {"country_count": len(regions), "first_year": first, "last_year": last,
-            "sexes": 2, "age_intervals": 101, "rows": matched, "vintage": VINTAGE,
+            "sexes": 2, "age_intervals": 101, "rows": matched, "vintage": vintage,
             "rounded_zero_exposures": rounded, "youngest_zero_exposure_age": minimum_age}
 
 
