@@ -4,7 +4,7 @@ type Row = { age: Age; q: number; l: number; rate: number; e: number | null };
 type Fan = { years: number[]; point: number[]; bounds: Record<string, [number[], number[]]>; origin: number; model: string; seed: number };
 type Series = { country: string; name: string; region: string; year: number; sex: string; e0: number; table: Row[]; e0_history: number[]; deaths: number[]; exposure: number[]; forecast: Fan | null };
 type Comparison = { source: string; vintage: string; panel_sha256: string; status: string; unit: string; year: number; years: number[]; ages: Age[]; lexis: number[][]; series: Series[] };
-type Catalogue = { countries: Choice[]; years: number[]; vintage: string; cause_countries: Choice[]; forecast: { model: string; seed: number; origin: number } | null };
+type Catalogue = { countries: Choice[]; years: number[]; vintage: string; cause_countries: Choice[]; error_models: string[]; forecast: { model: string; seed: number; origin: number } | null };
 type Cohort = { birth: number; points: { age: number; year: number; rate: number | null }[]; truncated: boolean };
 type Cause = { available: boolean; message: string; year: number; sex: string; name: string; all_deaths: number; unknown_age_deaths: number | null; groups: { id: string; label: string; count: number }[]; scenario: { baseline_e0: number; conditional_e0: number; by_age: number[]; ages: string[]; factor: number; residual_years: number } | null };
 type Trace = { x: number[]; y: number[]; color: string; dash?: boolean };
@@ -27,6 +27,7 @@ let comparison: Comparison | null = null;
 let periodRequest: AbortController | null = null;
 let causeRequest: AbortController | null = null;
 let cohortRequest: AbortController | null = null;
+let errorsRequest: AbortController | null = null;
 
 function svg<K extends keyof SVGElementTagNameMap>(kind: K, attrs: Record<string, string | number>): SVGElementTagNameMap[K] {
   const node = document.createElementNS(ns, kind);
@@ -300,20 +301,73 @@ function exportCsv() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-function section(showCause: boolean) {
-  byId("period").hidden = showCause;
-  byId("cause").hidden = !showCause;
-  byId("period-tab").setAttribute("aria-pressed", String(!showCause));
-  byId("cause-tab").setAttribute("aria-pressed", String(showCause));
-  notice.textContent = "";
-  if (showCause) {
-    periodRequest?.abort();
-    cohortRequest?.abort();
-    void loadCauses();
-  } else {
-    causeRequest?.abort();
-    void loadPeriod();
+async function loadErrors() {
+  errorsRequest?.abort();
+  const host = byId("error-grid");
+  const model = byId<HTMLSelectElement>("error-model");
+  host.replaceChildren();
+  if (!model.value) {
+    host.append(text("p", "Load a frozen backtest summary to inspect forecast errors.", "small"));
+    return;
   }
+  const request = new AbortController();
+  errorsRequest = request;
+  try {
+    const response = await read<{ available: boolean; vintage: string; rows: {
+      country: string; name: string; horizon: number; wis: number; n: number;
+    }[] }>("/api/errors", { family: model.value }, request.signal);
+    if (request.signal.aborted) return;
+    if (!response.available) {
+      host.append(text("p", "No completed forecast strata for this selection.", "small"));
+      return;
+    }
+    const groups = new Map<string, typeof response.rows>();
+    for (const row of response.rows) groups.set(row.name, [...(groups.get(row.name) ?? []), row]);
+    const table = document.createElement("table");
+    table.className = "error-table";
+    table.createCaption().textContent = `Rolling-origin scores · ${response.vintage}`;
+    const header = table.createTHead().insertRow();
+    for (const title of ["Country", "1 year", "5 years", "10 years", "20 years"]) {
+      const cell = document.createElement("th");
+      cell.scope = "col";
+      cell.textContent = title;
+      header.append(cell);
+    }
+    const body = table.createTBody();
+    const scale = Math.max(...response.rows.map(row => row.wis), 1);
+    for (const [name, rows] of [...groups].sort(([a], [b]) => a.localeCompare(b))) {
+      const line = body.insertRow();
+      const label = document.createElement("th");
+      label.scope = "row";
+      label.textContent = name;
+      line.append(label);
+      for (const horizon of [1, 5, 10, 20]) {
+        const result = rows.find(row => row.horizon === horizon);
+        const cell = line.insertCell();
+        cell.textContent = result ? result.wis.toFixed(2) : "Unavailable";
+        if (result) {
+          cell.className = `score-${Math.min(4, Math.floor(5 * result.wis / scale))}`;
+          cell.title = `${result.n} evaluated strata`;
+        }
+      }
+    }
+    host.append(table);
+  } catch (error) { showError(error); }
+}
+
+function section(active: "period" | "cause" | "errors") {
+  for (const sectionId of ["period", "cause", "errors"]) {
+    byId(sectionId).hidden = active !== sectionId;
+    byId(`${sectionId}-tab`).setAttribute("aria-pressed", String(active === sectionId));
+  }
+  notice.textContent = "";
+  periodRequest?.abort();
+  cohortRequest?.abort();
+  causeRequest?.abort();
+  errorsRequest?.abort();
+  if (active === "period") void loadPeriod();
+  if (active === "cause") void loadCauses();
+  if (active === "errors") void loadErrors();
 }
 
 async function start() {
@@ -340,6 +394,8 @@ async function start() {
   for (const [id, label] of Object.entries({ circulatory: "Circulatory", neoplasms: "Neoplasms", respiratory: "Respiratory", infectious: "Infectious", external: "External", special: "Special codes", other: "Other classified" })) {
     option(byId("who-cause"), id, label);
   }
+  for (const family of catalogue.error_models) option(byId("error-model"), family, family.replaceAll("_", " "));
+  byId("error-model").addEventListener("change", () => { void loadErrors(); });
   form.addEventListener("change", () => { void loadPeriod(); });
   form.addEventListener("submit", event => event.preventDefault());
   causeForm.addEventListener("change", () => { void loadCauses(); });
@@ -348,8 +404,9 @@ async function start() {
   });
   causeForm.addEventListener("submit", event => event.preventDefault());
   birth.addEventListener("change", () => { void loadCohort(); });
-  byId("period-tab").addEventListener("click", () => section(false));
-  byId("cause-tab").addEventListener("click", () => section(true));
+  byId("period-tab").addEventListener("click", () => section("period"));
+  byId("cause-tab").addEventListener("click", () => section("cause"));
+  byId("errors-tab").addEventListener("click", () => section("errors"));
   byId("export").addEventListener("click", exportCsv);
   byId("save").addEventListener("click", () => {
     try { localStorage.setItem("aevum.period.v1", JSON.stringify(selection())); notice.textContent = "View saved in this browser."; }

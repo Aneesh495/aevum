@@ -22,6 +22,7 @@
     <nav aria-label="Research sections" class="tabs">
       <button id="period-tab" type="button" aria-controls="period" aria-pressed="true">01 <span>Period comparison</span></button>
       <button id="cause-tab" type="button" aria-controls="cause" aria-pressed="false">02 <span>Cause lab</span></button>
+      <button id="errors-tab" type="button" aria-controls="errors" aria-pressed="false">03 <span>Forecast errors</span></button>
     </nav>
     <p id="notice" role="status" class="notice"></p>
     <section id="period" aria-labelledby="period-tab">
@@ -62,6 +63,13 @@
       <section class="panel"><p class="eyebrow">02 / SCENARIO</p><h2>Conditional life table</h2>
         <label class="check"><input type="checkbox" name="approx" form="cause-form"> Use matched midyear headcounts as approximate exposure</label>
         <div id="scenario"></div>
+      </section>
+    </section>
+    <section id="errors" aria-labelledby="errors-tab" hidden>
+      <label class="model-selector">Forecast model<select id="error-model"></select></label>
+      <section class="panel"><p class="eyebrow">01 / RETROSPECTIVE EVALUATION</p><h2>Forecast error matrix</h2>
+        <p>Mean weighted interval score in period life-expectancy years. Higher values indicate greater error or wider intervals.</p>
+        <div id="error-grid"></div>
       </section>
     </section>
   </main>

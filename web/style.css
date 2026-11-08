@@ -85,3 +85,21 @@ footer { margin-top: 2rem; border-top: 1px solid var(--line); font: .72rem var(-
   .panel-heading { flex-wrap: wrap; }
   .cause-list { grid-template-columns: 1fr; }
 }
+.model-selector { max-width: 270px; }
+.error-table { width: 100%; border-collapse: collapse; font: .82rem var(--sans); }
+.error-table caption { text-align: left; padding: .65rem 0; color: var(--muted); }
+.error-table th, .error-table td { padding: .5rem .7rem; border: 1px solid var(--line); }
+.error-table thead th { text-align: left; }
+.error-table tbody th { text-align: left; font-weight: 620; }
+.error-table td { text-align: right; font-variant-numeric: tabular-nums; }
+.score-0 { background: #edf5e9; }
+.score-1 { background: #e2eedb; }
+.score-2 { background: #f1e3c8; }
+.score-3 { background: #f1d6bb; }
+.score-4 { background: #edc0ac; }
+@media (max-width: 520px) {
+  .tabs { gap: .15rem; }
+  .tabs button { padding: .7rem .35rem; }
+  .tabs button span { font-size: .75rem; margin-left: .2rem; }
+  .error-table th, .error-table td { padding: .4rem .25rem; }
+}
