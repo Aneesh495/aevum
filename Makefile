@@ -32,7 +32,7 @@ who-data:
 	$(PY) -m aevum.who
 
 fit-baselines:
-	$(THREADS) $(PY) -m aevum.study --profile diagnostic --out evidence/$(RUN_ID)
+	$(THREADS) $(PY) -m aevum.study --profile baselines --out evidence/$(RUN_ID)
 
 train:
 	$(THREADS) $(PY) -m aevum.forecast fit --checkpoint evidence/$(RUN_ID)-checkpoint.pt
@@ -52,6 +52,7 @@ reference: build
 
 EVIDENCE ?= evidence/$(RUN_ID)-demo
 EXPECTED_COMMIT ?= $(shell git rev-parse HEAD)
+RELEASE_REVIEW_ARGS = $(if $(RELEASE_REVIEW),--release-review "$(RELEASE_REVIEW)") $(if $(RELEASE_REVIEW_SHA256),--release-review-sha256 "$(RELEASE_REVIEW_SHA256)")
 
 .PHONY: demo verify
 demo: build
@@ -59,7 +60,7 @@ demo: build
 
 verify:
 	@if test -f "$(EVIDENCE)/ACCEPTANCE.json"; then \
-	    $(PY) -m aevum.acceptance verify --out "$(EVIDENCE)" --expected-commit "$(EXPECTED_COMMIT)"; \
+	    $(PY) -m aevum.acceptance verify --out "$(EVIDENCE)" --expected-commit "$(EXPECTED_COMMIT)" $(RELEASE_REVIEW_ARGS); \
 	else \
 	    $(PY) -m aevum.verify demo "$(EVIDENCE)" --expected-commit "$(EXPECTED_COMMIT)"; \
 	fi
@@ -91,7 +92,7 @@ acceptance: build
 	$(THREADS) $(PY) -m aevum.acceptance run --profile $(PROFILE) --raw $(RAW) --out evidence/$(RUN_ID)
 
 verify-candidate:
-	$(THREADS) $(PY) -m aevum.acceptance verify --out $(EVIDENCE) --expected-commit $(EXPECTED_COMMIT) --candidate
+	$(THREADS) $(PY) -m aevum.acceptance verify --out "$(EVIDENCE)" --expected-commit "$(EXPECTED_COMMIT)" --candidate $(RELEASE_REVIEW_ARGS)
 
 .PHONY: vintages
 vintages:
