@@ -1,0 +1,9 @@
+run,category,value,unit
+research-candidate-v1,AUS / state space,1.5596908804332488,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,SWE / state space,1.4311559636331923,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,AUS / structured,1.2687754779579832,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,SWE / structured,1.2198330100447974,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,Europe / state space,1.124747122554255,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,Africa / structured,0.7188534240428233,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,Europe / structured,2.4958359659004152,"Increase in held-out e₀ MAE, years"
+research-candidate-v1,NorthAmerica / structured,0.05443099145110386,"Increase in held-out e₀ MAE, years"

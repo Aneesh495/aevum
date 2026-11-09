@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 258" role="img">
+<title>Structured forecast ablations</title><rect width="100%" height="100%" fill="#fbfaf4"/>
+<text x="24" y="32" font-family="Georgia, serif" font-size="22" fill="#163034">Structured forecast ablations</text>
+<text x="24" y="54" font-family="sans-serif" font-size="13" fill="#48615d">One-year weighted interval score, e₀ years</text>
+<path d="M275.00 67V244" stroke="#82958c"/>
+<text x="24" y="86" font-family="sans-serif" font-size="14" fill="#163034">Full structured model</text>
+<rect x="275.00" y="74" width="100.68" height="15" fill="#187765"/>
+<text x="738" y="86" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">1.6863</text>
+<text x="24" y="113" font-family="sans-serif" font-size="14" fill="#163034">age basis</text>
+<rect x="275.00" y="101" width="106.33" height="15" fill="#187765"/>
+<text x="738" y="113" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">1.7809</text>
+<text x="24" y="140" font-family="sans-serif" font-size="14" fill="#163034">calibration</text>
+<rect x="275.00" y="128" width="106.18" height="15" fill="#187765"/>
+<text x="738" y="140" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">1.7784</text>
+<text x="24" y="167" font-family="sans-serif" font-size="14" fill="#163034">dynamics</text>
+<rect x="275.00" y="155" width="99.83" height="15" fill="#187765"/>
+<text x="738" y="167" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">1.6721</text>
+<text x="24" y="194" font-family="sans-serif" font-size="14" fill="#163034">hierarchy</text>
+<rect x="275.00" y="182" width="385.00" height="15" fill="#187765"/>
+<text x="738" y="194" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">6.4484</text>
+<text x="24" y="221" font-family="sans-serif" font-size="14" fill="#163034">likelihood</text>
+<rect x="275.00" y="209" width="175.30" height="15" fill="#187765"/>
+<text x="738" y="221" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">2.9361</text>
+</svg>

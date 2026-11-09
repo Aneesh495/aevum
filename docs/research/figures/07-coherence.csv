@@ -1,0 +1,5 @@
+run,category,value,unit
+research-candidate-v1,coherent / 1y,0.3433500081877677,"Weighted interval score, e₀ years"
+research-candidate-v1,count trend / 1y,0.9811327672277088,"Weighted interval score, e₀ years"
+research-candidate-v1,coherent / 20y,2.0058906956298705,"Weighted interval score, e₀ years"
+research-candidate-v1,count trend / 20y,1.6688642085513712,"Weighted interval score, e₀ years"

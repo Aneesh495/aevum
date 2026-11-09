@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 204" role="img">
+<title>Cause-share error rises after 2019</title><rect width="100%" height="100%" fill="#fbfaf4"/>
+<text x="24" y="32" font-family="Georgia, serif" font-size="22" fill="#163034">Cause-share error rises after 2019</text>
+<text x="24" y="54" font-family="sans-serif" font-size="13" fill="#48615d">Mean absolute cause-share error, percentage points</text>
+<path d="M275.00 67V190" stroke="#82958c"/>
+<text x="24" y="86" font-family="sans-serif" font-size="14" fill="#163034">2019</text>
+<rect x="275.00" y="74" width="72.51" height="15" fill="#187765"/>
+<text x="738" y="86" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">0.5718</text>
+<text x="24" y="113" font-family="sans-serif" font-size="14" fill="#163034">2020</text>
+<rect x="275.00" y="101" width="307.10" height="15" fill="#187765"/>
+<text x="738" y="113" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">2.4217</text>
+<text x="24" y="140" font-family="sans-serif" font-size="14" fill="#163034">2021</text>
+<rect x="275.00" y="128" width="385.00" height="15" fill="#187765"/>
+<text x="738" y="140" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">3.0361</text>
+<text x="24" y="167" font-family="sans-serif" font-size="14" fill="#163034">2022</text>
+<rect x="275.00" y="155" width="220.21" height="15" fill="#187765"/>
+<text x="738" y="167" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">1.7365</text>
+</svg>

@@ -1,5 +1,7 @@
 # Mortality surfaces under revision, drift, and shock
 
+This manuscript uses the campaign bound in the [publication receipt](PUBLICATION.json).
+
 ## Abstract
 
 We compare demographic models that forecast age-specific death rates and derive period life expectancy from a life table. The historical frame contains 42 countries, both published sex series, and 54 calendar years in the original WPP 2024 release. The main comparison uses 13 rolling origins and four horizons. It includes four statistical baselines and two original learned models, with three training seeds for each learned rolling configuration. The best baseline has lower weighted interval score at each tested horizon. The two architectures improve over initialization in every rolling fit. Their transfers to some unseen countries and regions are worse than the corresponding initialization. Empirical coverage is below nominal in the modeled historical panel and deteriorates sharply during shocks. A separate WHO registration study shows substantial cause-composition errors after 2019, even under a source-quality screen.
@@ -31,13 +33,17 @@ Draws use synchronized historical residual increments in calendar blocks of thre
 | 10 years | Lee-Carter | 1.121 | 1.682 |
 | 20 years | Count trend | 1.669 | 2.075 |
 
-WIS units are period life-expectancy years. Differences between the best learned and best baseline are descriptive after selection within each horizon. The paired country-block interval for their difference is 0.86 to 1.63 years at one year and −0.20 to 1.02 at twenty years. The long-horizon estimate is compatible with either direction. Both learned families had nonzero parameter updates, with held-out improvement over random initialization in 78 of 78 rolling fits. Across all checkpoints, including diagnostic transfer and reused calibration configurations, improvement occurred in 127 of 135 comparisons. Training code can execute successfully while an out-of-support comparison deteriorates.
+WIS units are period life-expectancy years. Differences between the best learned and best baseline are descriptive after selection within each horizon. The paired country-block interval for their difference is 0.86 to 1.63 years at one year and −0.20 to 1.02 at twenty years. The long-horizon estimate is compatible with either direction. Both learned families had nonzero parameter updates, with held-out improvement over random initialization in 78 of 78 rolling fits. Across the 129 distinct learned fits, 121 improved on initialization. The eight regressions were in geographic transfer. Six additional comparisons reused checkpoints for calibration ablations.
 
 ![Forecast WIS across horizons](figures/forecast-wis.svg)
+
+[Plot data](figures/strata.csv) · [Campaign identity](PUBLICATION.json)
 
 The coherent factor's nominal 80% interval covers 67.9% at one year, 35.4% at five years, and 25.7% at twenty. Mean interval width grows from 1.15 to 2.95 years across those horizons. The residual increments capture recent noise and some cross-age dependence but miss substantial drift and regime uncertainty. In one-year 2020–2021 targets, coherent point MAE is 1.14 years and 80% coverage is 31.0%. The corresponding other-year values are 0.40 years and 74.6%. That contrast mixes multiple origins and the populations that contribute to them. It should be interpreted as a conditional backtest diagnostic.
 
 ![Prediction interval width across horizons](figures/interval-width.svg)
+
+[Plot data](figures/strata.csv) · [Campaign identity](PUBLICATION.json)
 
 ### Denominator, age and source effects
 

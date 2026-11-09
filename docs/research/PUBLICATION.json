@@ -1,0 +1,267 @@
+{
+  "executable_commit": "215584642c90eecfb62b51372bc05ca718e9fd2b",
+  "figures": {
+    "01-exposure": {
+      "scope": "WPP 2024, Norwegian female series, 1987–1988, age bands through 90+. Deterministic contrasts.",
+      "source_artifacts": {
+        "life-tables.csv": "4b64a5672c568cdefdecbe2a80ec8b0ee7334710faca6bc9838c7c0bd65177a9"
+      },
+      "title": "Norway's change depends on the exposure weights"
+    },
+    "02-reconstruction": {
+      "scope": "Eligible complete WPP 2024 tables, both sexes, ages 0–100+ where published l(x) ≥ 1. Synthetic radix 100,000.",
+      "source_artifacts": {
+        "reference/comparison.jsonl": "114f58d48cc4fb35bf9504702d30844082251988e305d0652830f2cb1928a447",
+        "reference/published.csv": "e633d7d4b499460b8c376b2e3c20eb8619753af1798e8430715df98630743fe3",
+        "reference/summary.json": "6332b6beb5774af72ed60c77a50b34e81362fdc2cd08a21378e4f7ea990f81c5"
+      },
+      "title": "Published life-table reconstruction error"
+    },
+    "03-infant-tail": {
+      "scope": "WPP 2024, 42 countries, 1970–2023, both sexes. Deaths per matched person-year. Deterministic maxima.",
+      "source_artifacts": {
+        "life-tables.csv": "4b64a5672c568cdefdecbe2a80ec8b0ee7334710faca6bc9838c7c0bd65177a9"
+      },
+      "title": "Life expectancy sensitivity to age assumptions"
+    },
+    "04-cohort": {
+      "derived_artifact": "04-cohort-forecast.json",
+      "scope": "WPP 2024 single-age history through 2023, then forecast age bands through 90+ in 2040. Conditional on survival to age 20.",
+      "source_artifacts": {
+        "serving.pt": "8179472f1d95c2ad24eef4bd6982b0d9e699474300fa23aa8e3c75d9109f02ac",
+        "wpp.parquet": "aefae8222f681a938397e36292f92409f62969ee1bb8d50ae941297511fd5bf0"
+      },
+      "title": "Remaining years for the 1950 birth cohort"
+    },
+    "05-counts": {
+      "scope": "200 synthetic panels, 100 per regime, four populations per panel, ages through 90+. Deaths per person-year.",
+      "source_artifacts": {
+        "recovery.jsonl": "7a20b79a74950f8320eb3a96d23e8a9eec3fdfe0594627f62912bc731dc70360"
+      },
+      "title": "Count and log-rate fits in known-truth panels"
+    },
+    "06-apc": {
+      "scope": "WPP 2024 rolling origins, 42 countries, both sexes, 20 age bands. Model contrast across available forecasts.",
+      "source_artifacts": {
+        "study/rolling.1995.apc/result.json": "4191c6861c7680b841b36a101cfd77f21b6867baca55942acc4a7df16d0c4563",
+        "study/rolling.1997.apc/result.json": "ed15d9baf6fb122179e4e783252c95349e6d65e4ca54b270a542bfc10c8396f9",
+        "study/rolling.1999.apc/result.json": "50568765f0c2d6f2d0bba1b89f7b7ca3f8d6845e5208ea2829d66f53ae53ec03",
+        "study/rolling.2001.apc/result.json": "81744e188dff9067f77716755fb509192f2d138d7cb6d17151d2089b739b8ce2",
+        "study/rolling.2003.apc/result.json": "e4c508611c880de1d22393c15818d3030bed0f637c49960b71ea052e50e5b29d",
+        "study/rolling.2008.apc/result.json": "b706dcf8766908c2cf1618a58a22921e9328a877d9fbc587d1dc578a09d79440",
+        "study/rolling.2010.apc/result.json": "ced4c0f29d148b6325b23beb3070dc18e2e03b935521421c0ccf033e8dbfde2a",
+        "study/rolling.2012.apc/result.json": "9c1268f15a5a3f0a35f39dd065f92df75a2fbd001c4d366b5f64b92dc352df63",
+        "study/rolling.2014.apc/result.json": "bc6d68629bc3ccc3e48e955bd008a36c6432fdb2ac6e6aa9aca81ac2e935357f",
+        "study/rolling.2017.apc/result.json": "72008d413ae3b62c77fb228403ebfa5a78051f65af642fe03e9f9cad91108048",
+        "study/rolling.2019.apc/result.json": "fe8289141f193b85bf0e57183b06b2cef66c645ebc4b3e9bc89ed45fdda297b0",
+        "study/rolling.2020.apc/result.json": "0064621352aa85d52b7410c4e79e458a3e31769751a122efe40c4e70c14cbb91",
+        "study/rolling.2022.apc/result.json": "b97ab91eeb5558268a3b4f413b3e0171fac09c8ee302d51a3b744d5cc41c497f"
+      },
+      "title": "APC sensitivity to extrapolating the cohort term"
+    },
+    "07-coherence": {
+      "scope": "WPP 2024, 42 countries, both sexes, 20 age bands, deaths per person-year. All eligible rolling origins at each horizon.",
+      "source_artifacts": {
+        "study/rolling.1995.coherent/result.json": "b2e063d2c4defa5c63495407d59141a57baaac64cdc6bfa45bdb5b4e831ecb96",
+        "study/rolling.1995.count_trend/result.json": "9fb235b9d7b6fd1ad2b634d305fd6928874a93b16ee8769f3d419317e8086979",
+        "study/rolling.1997.coherent/result.json": "e1b00ec5cad801cb822e6cad6e0abe0b64567ec8151f2e200799cf48f5b47fc7",
+        "study/rolling.1997.count_trend/result.json": "503ddf3c027eaa3c1b4cda0793e3e0da75ccb40481ce1096f422326d74893a28",
+        "study/rolling.1999.coherent/result.json": "6d519baa8d4dab41f75fb9ace8ca9d7fc7ac594e2d771a3c6edf3f4ecba3713d",
+        "study/rolling.1999.count_trend/result.json": "e968ca81d812a696a84c3067c22742eef147aaa0337895ed62def452c49fe9d1",
+        "study/rolling.2001.coherent/result.json": "e049b768aea0ebb4afcbfa5dfa023e242838b3f40e74b6a693617f25fb40aa32",
+        "study/rolling.2001.count_trend/result.json": "688f94648c008b24a2e61350503a43fa4302abe3e10ac35ed8beaaab19b9aec7",
+        "study/rolling.2003.coherent/result.json": "ee9b527f43cb39c71c089f28070a317604cd7add50bfc29340540439af64b223",
+        "study/rolling.2003.count_trend/result.json": "44bdda4818db926b4cd6f73126905281f288ed78200d0516e6ea5fbf97cb8fc1",
+        "study/rolling.2008.coherent/result.json": "4373dfda2b19b286aba65cdd44e82815b8f977ee088df7bb52d2f518356c241a",
+        "study/rolling.2008.count_trend/result.json": "1617081879e63d4a99cfa3b50e725faedf2fd993451190519f27cead75d93c97",
+        "study/rolling.2010.coherent/result.json": "fe2e2e51b278eca005db6287f3da170795c899ee61c2d9f99140bbf5f4954618",
+        "study/rolling.2010.count_trend/result.json": "2a6dedb02d5aa3f4c075085328e900fbf2ea3853f83d9476c6e88406092dee64",
+        "study/rolling.2012.coherent/result.json": "ba85d1f4c40d00a3fca9403783584d1ccaa574ab2ad84c126db2a3927f032f14",
+        "study/rolling.2012.count_trend/result.json": "6047c01737606a364e53b540972b006e2d152014a62844e79a51145289ab70d9",
+        "study/rolling.2014.coherent/result.json": "ec0ef824b3d51e6212b0aa64b5388cf07d86c1ebe5686e259adc6eefde0924e7",
+        "study/rolling.2014.count_trend/result.json": "77227408f5bb49faa3b1a4d394619d48dcca892e9542c33709c56de7a439e58c",
+        "study/rolling.2017.coherent/result.json": "0ee1d2a16a212c5c263d3e7c80096d3cc4992f33828f7d95fdfeb996fe694664",
+        "study/rolling.2017.count_trend/result.json": "18e110a468f559ab619232d535b4e243bd7913061adad44bd59d100747c1e26e",
+        "study/rolling.2019.coherent/result.json": "81e58c5815d916dc6927485c9bf156de73bb0a83042bac1c7c4e810fd463d287",
+        "study/rolling.2019.count_trend/result.json": "248b529f1d96ebb282448fac589efac04f442f2ea01727b4015ba7442893bda7",
+        "study/rolling.2020.coherent/result.json": "df60bcd8897d8bbcc5261b16fb0f17a1bc9178e967c3c6529740a7b91a678db4",
+        "study/rolling.2020.count_trend/result.json": "2288eb785eb5ee59eb63d9070213af8ec78e0c312ec6767380a3b86a54cec071",
+        "study/rolling.2022.coherent/result.json": "d38814deccd5868f82fa13594ac8d26fbd2eac2729fbcb5b8be4f520c19fc44a",
+        "study/rolling.2022.count_trend/result.json": "702fda73a6324f5166110a07ffd03b8cd6aacd8d1db294b666db592dfbe209a5"
+      },
+      "title": "Coherence helps at short horizons"
+    },
+    "08-learned": {
+      "scope": "WPP 2024, 42 countries, both sexes, 20 age bands, deaths per person-year. Matched 2003 and 2019 origins across all seeds.",
+      "source_artifacts": {
+        "study/ablation.2003.structured.1907.age_basis/result.json": "4886386e6aa7809582a23ab11a963a4e155c66924bbaddfbfcd97927493b125c",
+        "study/ablation.2003.structured.1907.calibration/result.json": "5e5ef6a9ff4b8a183da9822f29e677dedfd936b801c5cd2e5bf4e3a97627c28f",
+        "study/ablation.2003.structured.1907.dynamics/result.json": "0e8cc9c331b83aa142296f1007b9ee129328bd047371f6f056cf605d3213db4f",
+        "study/ablation.2003.structured.1907.hierarchy/result.json": "0be83f680465fbc6d38594822856e49233a7bff074fefd3018366b4e40804b6f",
+        "study/ablation.2003.structured.1907.likelihood/result.json": "5f038dec0013f1a32ac4ae5d0c1d4d201290cfc28c29146ae3e57bbee2b639a9",
+        "study/ablation.2003.structured.4801.age_basis/result.json": "fe99310802d7544e1b8befdb18aa1da88f493aa7386d2a720ed477722caba776",
+        "study/ablation.2003.structured.4801.calibration/result.json": "550d9ce175710358a9ac77056b722e635d5eda54417661e26b7274be6a65ce90",
+        "study/ablation.2003.structured.4801.dynamics/result.json": "022889ac9f52ad3525ec481f873bf82fbf7f2a493afca2246bafc2f8779650f4",
+        "study/ablation.2003.structured.4801.hierarchy/result.json": "891814da78fa0cefd9d13e757f40cfbd4c2189629443699de98dcd49515dd415",
+        "study/ablation.2003.structured.4801.likelihood/result.json": "c4619a8725bac7030841743950420be7896c8eb22fcfec2f766f406d7b61af70",
+        "study/ablation.2003.structured.731.age_basis/result.json": "32ceed13c8606b88fe85dc4b5b92cabb054c86d2181b5ff7207bfe6ddea3fca4",
+        "study/ablation.2003.structured.731.calibration/result.json": "787a346ea4de4bdfb23ee8c739c42f8257a85d29749ca18da7e63e00a7791c1f",
+        "study/ablation.2003.structured.731.dynamics/result.json": "c917b813c76b0c79087ee8edfe15ec4a88854b13924b8ffb21dc06cec8e9c0a9",
+        "study/ablation.2003.structured.731.hierarchy/result.json": "1d7a987835cb81599ee91de7bfcf96f65c520448af4d54afcae97e8550070145",
+        "study/ablation.2003.structured.731.likelihood/result.json": "d64fc8197d2dd542ddd4a10d9941409b9a4f3dbef0dd5904729efaf24714f9b6",
+        "study/ablation.2019.structured.1907.age_basis/result.json": "d57859d045bbf30884dca7387c6087300017716a1ab69bcd9da196522eb8d8ac",
+        "study/ablation.2019.structured.1907.calibration/result.json": "43d34fa7be6d750c01f77339e1a20b06924b687b5c671ec421bcfbbffe2cd59c",
+        "study/ablation.2019.structured.1907.dynamics/result.json": "75cf52855f3bc8595a656a20d23fae987913ad968aab9c1086683b3c110e5a87",
+        "study/ablation.2019.structured.1907.hierarchy/result.json": "2d9b907b0292c7fb5579422d8136763b0a173c4922821c50430ae045346497cb",
+        "study/ablation.2019.structured.1907.likelihood/result.json": "b9446204d388b10a354f32d6237f7f26f126e551ef533ed5a24efc958b7a6b24",
+        "study/ablation.2019.structured.4801.age_basis/result.json": "ad3875d2f6ba2ba21fada7f15d705db79496df27881cf3555c062e55028fb2bd",
+        "study/ablation.2019.structured.4801.calibration/result.json": "bea5f854e417416ac10dc6c32f2154b907c0ed3218328b33872e9a0e032e3000",
+        "study/ablation.2019.structured.4801.dynamics/result.json": "2f47e44d6744c8f6e79279bbb249c81900828a0645524952b35f1f1df431d35e",
+        "study/ablation.2019.structured.4801.hierarchy/result.json": "64b3050e97430d428fa7b8936db7e449a27ab1959f9c5edb27bea7633a22d89f",
+        "study/ablation.2019.structured.4801.likelihood/result.json": "debde09562a8bbca02c0cc7bf85de116ad39e9f53005406b46cbd648429fbdea",
+        "study/ablation.2019.structured.731.age_basis/result.json": "3d57398a1d6aeef2b1bb617c32cafca0753c439477de31ed5f047c816adb87be",
+        "study/ablation.2019.structured.731.calibration/result.json": "f595790542ee96cb7a7aebabfb8e4d0c5c7b0979bc73bacea6f18193301be9a6",
+        "study/ablation.2019.structured.731.dynamics/result.json": "5cfd5a4ebea80c856db3b602a36b501c71b415445eec827e2eb8ef4597b3b260",
+        "study/ablation.2019.structured.731.hierarchy/result.json": "99ca1376a4b1c783833dc88a1ce28166ca517448470ad6833933fc4417c32380",
+        "study/ablation.2019.structured.731.likelihood/result.json": "040ad1498a31366a95fd58dd97fe25a55a8b06993cc7f161addf38f3f6c84aaf",
+        "study/rolling.2003.structured.1907/result.json": "71fc16f3e3bd05fe5f64cbe94c3ceeff95ec4c9d1a2db96f727cb4b236cba82e",
+        "study/rolling.2003.structured.4801/result.json": "b7e8787a21641688070fd9bc92b0003e3a8fc51723ace06c64b428a37e8acb20",
+        "study/rolling.2003.structured.731/result.json": "01db5a221b9e66c1bb2376b5a8da410760fc593cba253e637063b7411615e3e5",
+        "study/rolling.2019.structured.1907/result.json": "5c919e0aaa0553a8a540e6ec5999ac925e8a2d6c2981aaaaa6a4758b7e5be041",
+        "study/rolling.2019.structured.4801/result.json": "0410bd983f70ca35c42a37507c129653d2538845abe99890c4230647e265f9d3",
+        "study/rolling.2019.structured.731/result.json": "388dff5805241990f3c8f85259f6253777510af27d1b68aca6469ddd1ba60355"
+      },
+      "title": "Structured forecast ablations"
+    },
+    "09-shocks": {
+      "scope": "WPP 2024, one-year forecasts, both sexes, 42 countries and 20 age bands. Retrospective pandemic targets versus other years.",
+      "source_artifacts": {
+        "study/rolling.1995.coherent/result.json": "b2e063d2c4defa5c63495407d59141a57baaac64cdc6bfa45bdb5b4e831ecb96",
+        "study/rolling.1997.coherent/result.json": "e1b00ec5cad801cb822e6cad6e0abe0b64567ec8151f2e200799cf48f5b47fc7",
+        "study/rolling.1999.coherent/result.json": "6d519baa8d4dab41f75fb9ace8ca9d7fc7ac594e2d771a3c6edf3f4ecba3713d",
+        "study/rolling.2001.coherent/result.json": "e049b768aea0ebb4afcbfa5dfa023e242838b3f40e74b6a693617f25fb40aa32",
+        "study/rolling.2003.coherent/result.json": "ee9b527f43cb39c71c089f28070a317604cd7add50bfc29340540439af64b223",
+        "study/rolling.2008.coherent/result.json": "4373dfda2b19b286aba65cdd44e82815b8f977ee088df7bb52d2f518356c241a",
+        "study/rolling.2010.coherent/result.json": "fe2e2e51b278eca005db6287f3da170795c899ee61c2d9f99140bbf5f4954618",
+        "study/rolling.2012.coherent/result.json": "ba85d1f4c40d00a3fca9403783584d1ccaa574ab2ad84c126db2a3927f032f14",
+        "study/rolling.2014.coherent/result.json": "ec0ef824b3d51e6212b0aa64b5388cf07d86c1ebe5686e259adc6eefde0924e7",
+        "study/rolling.2017.coherent/result.json": "0ee1d2a16a212c5c263d3e7c80096d3cc4992f33828f7d95fdfeb996fe694664",
+        "study/rolling.2019.coherent/result.json": "81e58c5815d916dc6927485c9bf156de73bb0a83042bac1c7c4e810fd463d287",
+        "study/rolling.2020.coherent/result.json": "df60bcd8897d8bbcc5261b16fb0f17a1bc9178e967c3c6529740a7b91a678db4",
+        "study/rolling.2022.coherent/result.json": "d38814deccd5868f82fa13594ac8d26fbd2eac2729fbcb5b8be4f520c19fc44a"
+      },
+      "title": "Coherent forecast coverage during the shock"
+    },
+    "10-transfer": {
+      "scope": "WPP 2024, 2013 origin, both sexes, horizons 1/5/10, 20 age bands. Selected nonimproving fits from the full transfer matrix.",
+      "source_artifacts": {
+        "study/country.2013.state_space.731.AUS/result.json": "e25794c1efbfe876654dc8080f8718b7c41e03d38b3640354dafc4430560da6e",
+        "study/country.2013.state_space.731.SWE/result.json": "a416861d1d8143a573a5c7a3f5a11db4781d70fbc274d40eb165faa69d33c3b1",
+        "study/country.2013.structured.731.AUS/result.json": "3212eb84d8a44058f079e013d0c64a204e5e750b31f2493ebdca7d67a2393139",
+        "study/country.2013.structured.731.SWE/result.json": "a709954f801b35a2f06ab7d966b287efb91248b92c5ca2d6032d327a017158b2",
+        "study/region.2013.state_space.731.Europe/result.json": "985c0f35a2a67417c1f73bfd93850d58198a5520ae5fed41a9c729d0ad54f3df",
+        "study/region.2013.structured.731.Africa/result.json": "bc218ca47e8e204cfd2220977f51ef78053c7462533b6695c005c724fd147c99",
+        "study/region.2013.structured.731.Europe/result.json": "2c2a1cbd7451982226f593814a4874fb3d0258cbab461aa0a9eb1554f9f098f7",
+        "study/region.2013.structured.731.NorthAmerica/result.json": "63f32767b5130b109a1f18a52682e91ce03f0d41544e0026c3e23ed42747c22a"
+      },
+      "title": "Transfer fits that regressed from initialization"
+    },
+    "11-vintage": {
+      "scope": "42 countries, both sexes, 2023 target, historical cutoff 2021, age bands through 90+. Only the 2022 inputs were available at origin.",
+      "source_artifacts": {
+        "vintages/as-of-2022.csv": "c5f765df0635d3b3e83acc92f382c4c4377c981fb6a2bc602412df674412b8ad",
+        "vintages/revisions.csv": "b2e2f170bd57239cf6ea33735b810d2ea8d1bd74c9c2469c4030a40c2bd78c63"
+      },
+      "title": "Training vintage changes 2023 forecast error"
+    },
+    "12-causes": {
+      "scope": "WHO February 2026 archive, 21 screened countries, both sexes, all ages. Shares conditional on realized all-cause registered deaths.",
+      "source_artifacts": {
+        "cause/quality.csv": "37784e4d0d56f1f931cce1afc707661b85277a7b9676e13286db57222dc053ca",
+        "cause/share_forecast.csv": "ea71a1e628792fb1c160cfb673284416e6596d73753e03d4528016735b07f171"
+      },
+      "title": "Cause-share error rises after 2019"
+    },
+    "13-scenarios": {
+      "scope": "WHO February 2026 archive, 22 matched 2019 population-sex slices, 24 age bins. Approximate midyear denominators and fixed competing rates.",
+      "source_artifacts": {
+        "cause/conditional_scenarios.csv": "f77796ff4a5c581687bc50f64e3bcf9fed50551233c8659a4b708c6fcebc959a",
+        "cause/denominator_sensitivity.csv": "aaf3c00d79cfca5436056b40789282b4c345f9f0bb29ff7a5b144e6cb783ebb3"
+      },
+      "title": "Conditional expectancy gain after halving circulatory mortality"
+    },
+    "14-calibration": {
+      "scope": "WPP 2024, 42 countries, both sexes, 20 age bands. Empirical coverage on the eligible retrospective outcomes.",
+      "source_artifacts": {
+        "study/rolling.1995.coherent/result.json": "b2e063d2c4defa5c63495407d59141a57baaac64cdc6bfa45bdb5b4e831ecb96",
+        "study/rolling.1997.coherent/result.json": "e1b00ec5cad801cb822e6cad6e0abe0b64567ec8151f2e200799cf48f5b47fc7",
+        "study/rolling.1999.coherent/result.json": "6d519baa8d4dab41f75fb9ace8ca9d7fc7ac594e2d771a3c6edf3f4ecba3713d",
+        "study/rolling.2001.coherent/result.json": "e049b768aea0ebb4afcbfa5dfa023e242838b3f40e74b6a693617f25fb40aa32",
+        "study/rolling.2003.coherent/result.json": "ee9b527f43cb39c71c089f28070a317604cd7add50bfc29340540439af64b223",
+        "study/rolling.2008.coherent/result.json": "4373dfda2b19b286aba65cdd44e82815b8f977ee088df7bb52d2f518356c241a",
+        "study/rolling.2010.coherent/result.json": "fe2e2e51b278eca005db6287f3da170795c899ee61c2d9f99140bbf5f4954618",
+        "study/rolling.2012.coherent/result.json": "ba85d1f4c40d00a3fca9403783584d1ccaa574ab2ad84c126db2a3927f032f14",
+        "study/rolling.2014.coherent/result.json": "ec0ef824b3d51e6212b0aa64b5388cf07d86c1ebe5686e259adc6eefde0924e7",
+        "study/rolling.2017.coherent/result.json": "0ee1d2a16a212c5c263d3e7c80096d3cc4992f33828f7d95fdfeb996fe694664",
+        "study/rolling.2019.coherent/result.json": "81e58c5815d916dc6927485c9bf156de73bb0a83042bac1c7c4e810fd463d287",
+        "study/rolling.2020.coherent/result.json": "df60bcd8897d8bbcc5261b16fb0f17a1bc9178e967c3c6529740a7b91a678db4",
+        "study/rolling.2022.coherent/result.json": "d38814deccd5868f82fa13594ac8d26fbd2eac2729fbcb5b8be4f520c19fc44a"
+      },
+      "title": "Coherent forecast coverage across horizons"
+    }
+  },
+  "files": {
+    "01-exposure.md": "41be2b768b9e57834a43f58ae15bd4308c5f66b65127441940d488fd521763c2",
+    "02-reconstruction.md": "a87f77f5c0c806ecc9d96c111679f30efd475f9f8544330b1e4df7e7a75d1fb1",
+    "03-infant-tail.md": "45d5a9b76dbea766efe39887fd685904fcd769f8e291bacdad35985792a7cbad",
+    "04-cohort.md": "cdbb173702aa6b5734dbcb0a8a340ca3f93af6e3224337f07c16093a266e0b72",
+    "05-counts.md": "f739bf32e64e068cedd5c208d491c108b98814700835ae565b7f207c925de32b",
+    "06-apc.md": "7e4f0d5e12271020bb4ae154872471422edc3d44f2ecc1a609be2349a07f3983",
+    "07-coherence.md": "4b755fe5d8138791dde2ca3a8712f04a8ca0618eb23ab2d904b665cd6ee6694d",
+    "08-learned.md": "d90198218aea06d037c50ddb198df2c41d435f1a2c1289c3520318dbc864109f",
+    "09-shocks.md": "73e0d5c757f619498a020ab332da11d9e2ea528876cd283e3b03b894352fa9af",
+    "10-transfer.md": "13f45938af7479bd0d665e6973e1ed9d786f6ce307396c5f117bd920418bd70c",
+    "11-vintage.md": "a62d6c30cd830bfa6f7584fbb85b22571efd1291f0a55489aa4d0d9ce2f2f9c6",
+    "12-causes.md": "deacca3242df8ce7539e72d1b8b9fb02701c88192e7b9ce44d060038ada8d340",
+    "13-scenarios.md": "0dab649e0231163e6e92918164434f1aa42226ba3b394424b169ddfbb299b396",
+    "14-calibration.md": "41d6b1e91a3d2794cc9b2222abbaaffd6f7a5d849bd901bb5e70786cb0b55b6d",
+    "CLAIMS.md": "e45d4aa625a68d279a47307712970bf35bdacef9d81d51017ebcf6a775c0e9d3",
+    "README.md": "57c27c00278fe966709bdec4fefda19ebae87b1702856b9b3e1803e670efbcdd",
+    "THESIS.md": "ea7c52147f8475c57944ba82795613af4d31d8c7d7e290288c718a25b1f767f3",
+    "figures/01-exposure.csv": "65b3004b7174aef753efca620e7f7a2fa25a43bec483079bc270b037f49e8728",
+    "figures/01-exposure.svg": "4c110283dadbce199f0c6f0457c542e65b8ec08f218d23a274d5058ba3c29439",
+    "figures/02-reconstruction.csv": "3339ad5bfa1a231b6a648ec300e9580c95ac7ecab9bc9e36ac67206e7af784ee",
+    "figures/02-reconstruction.svg": "810d7ab57ce821b83058dad553bb7db5cf6ddc19da06494cec5fb28098942caa",
+    "figures/03-infant-tail.csv": "5f8cf15be19f9bc745541120b8e44e29a548132498527eb9ced2d5df12342c1a",
+    "figures/03-infant-tail.svg": "cfb1ca22c67e0863e50dbeebcbd7d0331006cdd182f863e5c51f25a3504661c2",
+    "figures/04-cohort-forecast.json": "baf5160ab13574c04eab837fdcbb560dd2677815d32259eab177fb530a289679",
+    "figures/04-cohort.csv": "86c54d651a301a50f6d99696d609d0eb2fd97cafc90580037f38c183eae1360a",
+    "figures/04-cohort.svg": "3d9f89884a538932cb1b5d686b31e345354963bcc5ca0925253460a0af3a8e66",
+    "figures/05-counts.csv": "a274dfae9e3c2d88f538017a45709d2e7fb51476b5e49d27bb253066b49979b7",
+    "figures/05-counts.svg": "5f00dc4aa4ac5992bc3ae44c7ac475e85040599ce0047e6d682f7bdebd21ba90",
+    "figures/06-apc.csv": "2bec543138abd3d8d4507f42c7f4c604fa2fcc947bbb58c0a7f5be2168ec5b84",
+    "figures/06-apc.svg": "1e6a2d8598ef327ddb9f916be5e8b73235cdc2ef0335c7961e47d28cfcc4eade",
+    "figures/07-coherence.csv": "d8e38ef53f1569a27e327db19417e12012ebc4a58e404852ea69ca9194777fb5",
+    "figures/07-coherence.svg": "55c054e2c693be6bffb81447cc94e5d5be971b8b8077eddeb2465ce328bbf1de",
+    "figures/08-learned.csv": "18f0e3546d3c7ff348300fb4ae25c0f0147210ece516ba6776ee0b047d581817",
+    "figures/08-learned.svg": "670da5be5db34ace647f061b7a228bd701a0664b61973339cefc96f78c56c67d",
+    "figures/09-shocks.csv": "aa6046e5b1575c9f685da3dcd32f803cf83500b1cc81daf7765b4ab22b097326",
+    "figures/09-shocks.svg": "3535ea3998784af296773e1ca18c25f107ad8139e660b0b57418ef8cb7d741b0",
+    "figures/10-transfer.csv": "c3c64087db77e2eff2454383d8c892aacbdc0158d2df0c9b10773e04e067d34e",
+    "figures/10-transfer.svg": "90518a1dff2950c73edd41f0c4ef3de711aa3a953e6111f064adbaa6031ccae4",
+    "figures/11-vintage.csv": "a49cc89d83ac79f5147b98759cd45928f564633453cea18e6aa74eed77adec10",
+    "figures/11-vintage.svg": "65c810f51e766a191140e4d437c961ebab75e05c220b21a8253f300ab7545ae0",
+    "figures/12-causes.csv": "48e4f8705724261d29cb3b6aab58e314177fe96efcd5c214176cd17a80554225",
+    "figures/12-causes.svg": "c99355667e1396b98c990a4bc8172f72ce80300ae2748933d58d168c2624c9d8",
+    "figures/13-scenarios.csv": "263e02fa6c37c40e39dd4055a7eb82f4b2f6a7f1bd82c1ba93e35aff95424add",
+    "figures/13-scenarios.svg": "0854f1a386dc49f889fe66afb12be50988f7abb29f0fb0543a2e56f82435807b",
+    "figures/14-calibration.csv": "f14feb41afc732cba3052b45847bb3fb6592ea1d68b2fb452464c1050ffaaf17",
+    "figures/14-calibration.svg": "2b0fdf709ecfef519f0ed32b77b85c2bc56d85e4db386d04efd8bb136f202cb0",
+    "figures/forecast-wis.svg": "a0102a2782a76436e99cc2776e0d739b12c1f918396e7280ac7268db46740e1b",
+    "figures/interval-width.svg": "f77db0f580eeb0a6c5871b7b67917b0e12979624fbe01317dfeb85d20f5fe9de",
+    "figures/strata.csv": "d5a711dfb29e7a0cd5a6901caf16395e16efef3243a65cc6ddfba0c571f09740",
+    "figures/synthetic.csv": "abf1ba38235514113087440b127fa516ea69dd6090ac3a8aec6ed98bf2ca061e"
+  },
+  "manifest_sha256": "a90a89bc1d9154b421cfc1cc6a8548ed0e3c884f92b5afbe07c3190258370e91",
+  "run": "research-candidate-v1"
+}

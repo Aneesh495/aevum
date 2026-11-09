@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 204" role="img">
+<title>Training vintage changes 2023 forecast error</title><rect width="100%" height="100%" fill="#fbfaf4"/>
+<text x="24" y="32" font-family="Georgia, serif" font-size="22" fill="#163034">Training vintage changes 2023 forecast error</text>
+<text x="24" y="54" font-family="sans-serif" font-size="13" fill="#48615d">MAE change with revised input, e₀ years</text>
+<path d="M540.70 67V190" stroke="#82958c"/>
+<text x="24" y="86" font-family="sans-serif" font-size="14" fill="#163034">apc</text>
+<rect x="275.00" y="74" width="265.70" height="15" fill="#a84b36"/>
+<text x="738" y="86" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">-0.19641</text>
+<text x="24" y="113" font-family="sans-serif" font-size="14" fill="#163034">coherent</text>
+<rect x="540.70" y="101" width="119.30" height="15" fill="#187765"/>
+<text x="738" y="113" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">0.088192</text>
+<text x="24" y="140" font-family="sans-serif" font-size="14" fill="#163034">count trend</text>
+<rect x="444.92" y="128" width="95.78" height="15" fill="#a84b36"/>
+<text x="738" y="140" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">-0.070803</text>
+<text x="24" y="167" font-family="sans-serif" font-size="14" fill="#163034">lee carter</text>
+<rect x="540.70" y="155" width="34.70" height="15" fill="#187765"/>
+<text x="738" y="167" text-anchor="end" font-family="monospace" font-size="12" fill="#163034">0.025652</text>
+</svg>

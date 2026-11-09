@@ -1,0 +1,5 @@
+run,category,value,unit
+research-candidate-v1,shock and cohort / count trend,3.3208330217224096,"Five-year e₀ MAE, years"
+research-candidate-v1,shock and cohort / lee carter,3.677404362014636,"Five-year e₀ MAE, years"
+research-candidate-v1,stable drift / count trend,0.8925058037333017,"Five-year e₀ MAE, years"
+research-candidate-v1,stable drift / lee carter,0.5959407878940407,"Five-year e₀ MAE, years"
