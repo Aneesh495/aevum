@@ -44,7 +44,7 @@ jobs:
       - if: always() && steps.run.outcome != 'skipped'
         run: make verify-candidate EVIDENCE="evidence/$RUN_ID"
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: research-summary-${{ github.run_id }}
           path: |
